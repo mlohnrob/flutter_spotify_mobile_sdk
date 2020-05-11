@@ -11,4 +11,10 @@ public class SwiftSpotifyMobileSdkPlugin: NSObject, FlutterPlugin {
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     result("iOS " + UIDevice.current.systemVersion)
   }
+
+  public func initialize(clientId: String, redirectUri: String) {
+    if (clientId != nil && redirectUri = nil) {
+      lazy var configuration = SPTConfiguration(clientID: clientId, redirectURL: URL(redirectUri))
+    }
+  }
 }
