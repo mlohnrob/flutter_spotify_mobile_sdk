@@ -8,6 +8,14 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+
+import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Track;
+
 /** SpotifyMobileSdkPlugin */
 public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
   @Override
@@ -38,8 +46,16 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Motherfucking ANDROID: " + android.os.Build.VERSION.RELEASE);
+    // if (call.method.equals("getPlatformVersion")) {
+    // result.success("Motherfucking ANDROID: " + android.os.Build.VERSION.RELEASE);
+    // } else {
+    // result.notImplemented();
+    // }
+
+    if (call.method.equals("initialize")) {
+      initialize("hajeiae", "com.redirect.here", result);
+    } else if (call.method.equals("getPlatformVersion")) {
+      result.success("ANDROID: " + android.os.Build.VERSION.RELEASE);
     } else {
       result.notImplemented();
     }
@@ -47,5 +63,13 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+  }
+
+  private void initialize(@NonNull String clientId, @NonNull String redirectUri, @NonNull Result result) {
+    if (clientId != null && redirectUri != null) {
+      ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
+          .showAuthView(true).build();
+      result.success(true);
+    }
   }
 }
