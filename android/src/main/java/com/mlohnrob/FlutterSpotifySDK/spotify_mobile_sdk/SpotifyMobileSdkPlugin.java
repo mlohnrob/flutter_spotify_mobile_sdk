@@ -46,18 +46,16 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    // if (call.method.equals("getPlatformVersion")) {
-    // result.success("Motherfucking ANDROID: " + android.os.Build.VERSION.RELEASE);
-    // } else {
-    // result.notImplemented();
-    // }
-
-    if (call.method.equals("initialize")) {
-      initialize("hajeiae", "com.redirect.here", result);
-    } else if (call.method.equals("getPlatformVersion")) {
-      result.success("ANDROID: " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
+    switch (call.method) {
+      case "initialize":
+        initialize(call.args[0], "com.redirect.here", result);
+        break;
+      case "getPlatformVersion":
+        result.success("ANDROID: " + android.os.Build.VERSION.RELEASE);
+        break;
+      default:
+        result.notImplemented();
+        break;
     }
   }
 
@@ -65,10 +63,15 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
   }
 
+  private SpotifyAppRemote mSpotifyAppRemote;
+
   private void initialize(@NonNull String clientId, @NonNull String redirectUri, @NonNull Result result) {
     if (clientId != null && redirectUri != null) {
       ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
           .showAuthView(true).build();
+
+
+      SpotifyAppRemote.connect(this.context, connectionParams, )
       result.success(true);
     }
   }
