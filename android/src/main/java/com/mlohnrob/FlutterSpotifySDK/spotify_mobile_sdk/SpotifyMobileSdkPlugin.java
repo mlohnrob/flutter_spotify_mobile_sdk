@@ -64,15 +64,49 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   }
 
   private SpotifyAppRemote mSpotifyAppRemote;
+  private static final String CLIENT_ID = "";
+  private static final String REDIRECT_URL = "";
 
   private void initialize(@NonNull String clientId, @NonNull String redirectUri, @NonNull Result result) {
     if (clientId != null && redirectUri != null) {
       ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
           .showAuthView(true).build();
 
+     mSpotifyAppRemote.connect(this, connectionParams, new Connecter.ConnectionListener() {
 
-      SpotifyAppRemote.connect(this.context, connectionParams, )
-      result.success(true);
+       @Override
+       public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+         mSpotifyAppRemote = spotifyAppRemote;
+         result.success(true);
+         Log.d("Spotify App Remote connected!");
+
+         // Logic to do after connection
+         // connected();
+       }
+
+       @Override
+       public void onFailure(Throwable throwable) {
+         result.failure();
+         Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
+
+         // Something went wrong with connection
+         // Handle errors here!
+       }
+     });
+
+
     }
+  }
+
+
+  private void disconnect() {
+    SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+    result.succes(true);
+  }
+
+
+  private void playPlaylist(@NonNull String playlistId) {
+    final String fullId = String.format("spotify:playlist:%s", playlistId);
+    mSpotifyAppRemote.getPlayerApi().play(fullId);
   }
 }
