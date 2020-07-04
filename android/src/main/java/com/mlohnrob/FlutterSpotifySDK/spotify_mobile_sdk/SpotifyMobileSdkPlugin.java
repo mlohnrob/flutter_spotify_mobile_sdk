@@ -48,7 +48,8 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     switch (call.method) {
       case "initialize":
-        initialize(call.args[0], "com.redirect.here", result);
+        // TODO implement correct args
+        initialize(call.args[0], call.args[1], result);
         break;
       case "getPlatformVersion":
         result.success("ANDROID: " + android.os.Build.VERSION.RELEASE);
@@ -72,38 +73,35 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
           .showAuthView(true).build();
 
-     mSpotifyAppRemote.connect(this, connectionParams, new Connecter.ConnectionListener() {
+      mSpotifyAppRemote.connect(this, connectionParams, new Connecter.ConnectionListener() {
 
-       @Override
-       public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-         mSpotifyAppRemote = spotifyAppRemote;
-         result.success(true);
-         Log.d("Spotify App Remote connected!");
+        @Override
+        public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+          mSpotifyAppRemote = spotifyAppRemote;
+          result.success(true);
+          Log.d("Spotify App Remote connected!");
 
-         // Logic to do after connection
-         // connected();
-       }
+          // Logic to do after connection
+          // connected();
+        }
 
-       @Override
-       public void onFailure(Throwable throwable) {
-         result.failure();
-         Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
+        @Override
+        public void onFailure(Throwable throwable) {
+          result.failure();
+          Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
 
-         // Something went wrong with connection
-         // Handle errors here!
-       }
-     });
-
+          // Something went wrong with connection
+          // Handle errors here!
+        }
+      });
 
     }
   }
-
 
   private void disconnect() {
     SpotifyAppRemote.disconnect(mSpotifyAppRemote);
     result.succes(true);
   }
-
 
   private void playPlaylist(@NonNull String playlistId) {
     final String fullId = String.format("spotify:playlist:%s", playlistId);
