@@ -23,6 +23,8 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(),
         "spotify_mobile_sdk");
     channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
+
+    this.context = flutterPluginBinding.getApplicationContext();
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It
@@ -74,7 +76,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
           .showAuthView(true).build();
 
-      mSpotifyAppRemote.connect(this, connectionParams, new Connector.ConnectionListener() {
+      mSpotifyAppRemote.connect(this.context, connectionParams, new Connector.ConnectionListener() {
 
         @Override
         public void onConnected(SpotifyAppRemote spotifyAppRemote) {
