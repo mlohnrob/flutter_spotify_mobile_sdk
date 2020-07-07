@@ -26,9 +26,9 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     bool test;
     // Platform messages may fail, so we use a try/catch PlatformException.
+    platformVersion = await SpotifyMobileSdk.platformVersion;
     try {
-      platformVersion = await SpotifyMobileSdk.platformVersion;
-      // test = await SpotifyMobileSdk.init(clientId: "0dc771e10a68439eb98284d6df51c3d7", redirectUri: "spotify-sdk://auth");
+      test = await SpotifyMobileSdk.init(clientId: "0dc771e10a68439eb98284d6df51c3d7", redirectUri: "spotify-sdk://auth");
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
