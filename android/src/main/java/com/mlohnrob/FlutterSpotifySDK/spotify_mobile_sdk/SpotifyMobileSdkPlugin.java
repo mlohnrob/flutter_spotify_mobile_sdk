@@ -1,12 +1,16 @@
 package com.mlohnrob.FlutterSpotifySDK.spotify_mobile_sdk;
 
 import androidx.annotation.NonNull;
+
+import android.content.Context;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.plugin.common.BinaryMessenger;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -22,7 +26,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   private MethodChannel methodChannel;
 
   public static void registerWith(final Registrar registrar) {
-    final SpotifyMobileSdkPlugin instance = SpotifyMobileSdkPlugin();
+    final SpotifyMobileSdkPlugin instance = new SpotifyMobileSdkPlugin();
     instance.onAttachedToEngine(registrar.context(), registrar.messenger());
     // final MethodChannel channel = new MethodChannel(registrar.messenger(),
     // "spotify_mobile_sdk");
