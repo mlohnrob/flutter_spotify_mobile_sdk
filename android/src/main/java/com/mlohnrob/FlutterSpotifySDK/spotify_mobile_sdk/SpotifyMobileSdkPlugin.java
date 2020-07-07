@@ -94,30 +94,33 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   private void initialize(@NonNull final String clientId, @NonNull final String redirectUri,
       @NonNull final Result result) {
     if (clientId != null && redirectUri != null) {
-      final ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
-          .showAuthView(true).build();
+      result.success(true);
+      // final ConnectionParams connectionParams = new
+      // ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
+      // .showAuthView(true).build();
 
-      mSpotifyAppRemote.connect(this.appContext, connectionParams, new Connector.ConnectionListener() {
+      // mSpotifyAppRemote.connect(this.appContext, connectionParams, new
+      // Connector.ConnectionListener() {
 
-        @Override
-        public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
-          mSpotifyAppRemote = spotifyAppRemote;
-          result.success(true);
-          // Log.d("Spotify App Remote connected!");
+      // @Override
+      // public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
+      // mSpotifyAppRemote = spotifyAppRemote;
+      // result.success(true);
+      // // Log.d("Spotify App Remote connected!");
 
-          // Logic to do after connection
-          // connected();
-        }
+      // // Logic to do after connection
+      // // connected();
+      // }
 
-        @Override
-        public void onFailure(final Throwable throwable) {
-          // result.error("Spotify App Remote: ", throwable.getMessage());
-          // Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
+      // @Override
+      // public void onFailure(final Throwable throwable) {
+      // // result.error("Spotify App Remote: ", throwable.getMessage());
+      // // Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
 
-          // Something went wrong with connection
-          // Handle errors here!
-        }
-      });
+      // // Something went wrong with connection
+      // // Handle errors here!
+      // }
+      // });
 
     } else {
       // result.error("Error Connecting to App Remote! Client ID or Redirect URI is
