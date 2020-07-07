@@ -74,13 +74,13 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
           .showAuthView(true).build();
 
-      mSpotifyAppRemote.connect(this.context, connectionParams, new Connector.ConnectionListener() {
+      mSpotifyAppRemote.connect(this, connectionParams, new Connector.ConnectionListener() {
 
         @Override
         public void onConnected(SpotifyAppRemote spotifyAppRemote) {
           mSpotifyAppRemote = spotifyAppRemote;
           result.success(true);
-          Log.d("Spotify App Remote connected!");
+          // Log.d("Spotify App Remote connected!");
 
           // Logic to do after connection
           // connected();
@@ -105,7 +105,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   private void disconnect(@NonNull Result result) {
     try {
       SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-      result.succes(true);
+      result.success(true);
     } catch (Exception e) {
       // result.error("Disconnect failed", e.getStackTrace());
     }
