@@ -48,8 +48,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     switch (call.method) {
       case "initialize":
-        // TODO implement correct args
-        initialize(call.args[0], call.args[1], result);
+        final String clientId = call.argument("clientId");
+        final String redirectUri = call.argument("redirectUri");
+        initialize(clientId, redirectUri, result);
         break;
       case "getPlatformVersion":
         result.success("ANDROID: " + android.os.Build.VERSION.RELEASE);
@@ -65,15 +66,15 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   }
 
   private SpotifyAppRemote mSpotifyAppRemote;
-  private static final String CLIENT_ID = "";
-  private static final String REDIRECT_URL = "";
+  // private static final String CLIENT_ID = "";
+  // private static final String REDIRECT_URL = "";
 
   private void initialize(@NonNull String clientId, @NonNull String redirectUri, @NonNull Result result) {
     if (clientId != null && redirectUri != null) {
       ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
           .showAuthView(true).build();
 
-      mSpotifyAppRemote.connect(this, connectionParams, new Connecter.ConnectionListener() {
+      mSpotifyAppRemote.connect(this.context, connectionParams, new Connecter.ConnectionListener() {
 
         @Override
         public void onConnected(SpotifyAppRemote spotifyAppRemote) {
@@ -87,20 +88,26 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
         @Override
         public void onFailure(Throwable throwable) {
-          result.failure();
-          Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
+          result.error("Spotify App Remote: ", throwable.getMessage());
+          // Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
 
           // Something went wrong with connection
           // Handle errors here!
         }
       });
 
+    } else {
+      result.error("Error Connecting to App Remote! Client ID or Redirect URI is not set");
     }
   }
 
   private void disconnect() {
-    SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-    result.succes(true);
+    try {
+      SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+      result.succes(true);
+    } catch (Exception e) {
+      result.error("Disconnect failed", e.getStackTrace());
+    }
   }
 
   private void playPlaylist(@NonNull String playlistId) {

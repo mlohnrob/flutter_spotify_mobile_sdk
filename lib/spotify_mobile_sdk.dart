@@ -12,8 +12,11 @@ class SpotifyMobileSdk {
   }
 
   static Future<bool> init({@required String clientId, @required String redirectUri}) async {
-    final bool initialized = await _channel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
-    return initialized;
+    try {
+      return await _channel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
+    } on Exception catch (e) {
+      print("Failed to init: $e");
+    }
   }
 
   // static Future<bool> play({@required String itemId}) async {
