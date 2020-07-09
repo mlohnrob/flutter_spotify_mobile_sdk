@@ -30,4 +30,12 @@ class SpotifyMobileSdk {
       print("$e");
     }
   }
+
+  static Future<void> resume() async {
+    try {
+      await _channel.invokeMethod("resume");
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
 }
