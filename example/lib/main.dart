@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  bool _test = false;
+  bool _init = false;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _platformVersion = platformVersion;
-      _test = test;
+      _init = init;
     });
   }
 
@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion, $_test'),
+          child: Text('Running on: $_platformVersion, $_init'),
         ),
       ),
     );
