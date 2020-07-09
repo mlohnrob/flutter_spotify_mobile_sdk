@@ -70,6 +70,8 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         final String playlistId = call.argument("playlistId");
         playPlaylist(playlistId, result);
         return;
+      case "pause":
+        pause();
       default:
         result.notImplemented();
         return;
@@ -125,11 +127,20 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       final String fullId = String.format("spotify:playlist:%s", playlistId);
       try {
         mSpotifyAppRemote.getPlayerApi().play(fullId);
+        result.success();
       } catch (final Exception e) {
         result.error("Play Playlist failed: ", e.getMessage(), "");
       }
     } else {
       result.error("Play Playlist failed: [playlistId] is null", "", "");
+    }
+  }
+
+  private void pause() {
+    try {
+      mSpotifyAppRemote.getPlayerApi().pause().setResultCallback(result.success());
+    } catch (final Exception e) {
+      result.error("Pause failed: ", e.getMessage(), "");
     }
   }
 }
