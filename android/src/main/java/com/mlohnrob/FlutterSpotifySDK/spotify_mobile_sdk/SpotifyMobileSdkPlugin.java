@@ -111,12 +111,20 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       SpotifyAppRemote.disconnect(mSpotifyAppRemote);
       result.success(true);
     } catch (final Exception e) {
-      result.error("Disconnect failed", e.getMessage(), "");
+      result.error("Disconnect failed: ", e.getMessage(), "");
     }
   }
 
   private void playPlaylist(@NonNull final String playlistId, @NonNull final Result result) {
-    final String fullId = String.format("spotify:playlist:%s", playlistId);
-    mSpotifyAppRemote.getPlayerApi().play(fullId);
+    if (playlistId != null && result != null) {
+      final String fullId = String.format("spotify:playlist:%s", playlistId);
+      try {
+        mSpotifyAppRemote.getPlayerApi().play(fullId);
+      } catch (final Exception e) {
+        result.error("Play Playlist failed: ", e.getMessage(), "");
+      }
+    } else {
+      result.error("Play Playlist failed: [playlistId] is null", "", "");
+    }
   }
 }

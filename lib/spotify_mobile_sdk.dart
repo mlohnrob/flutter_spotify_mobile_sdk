@@ -23,8 +23,8 @@ class SpotifyMobileSdk {
   static Future<void> playPlaylist({@required String playlistId}) async {
     try {
       await _channel.invokeMethod("playPlaylist", {"playlistId": playlistId});
-    } on PlatformException {
-      print("PLATFORM EXCEPTION PLAY PLAYLIST");
+    } on PlatformException catch (e) {
+      print("$e");
     }
   }
 }
