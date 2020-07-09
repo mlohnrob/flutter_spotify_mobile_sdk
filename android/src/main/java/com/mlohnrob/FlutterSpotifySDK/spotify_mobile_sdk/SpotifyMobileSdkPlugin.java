@@ -27,15 +27,18 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
   private SpotifyAppRemote mSpotifyAppRemote;
 
-  SpotifyMobileSdkPlugin(FlutterPluginBinding flutterPluginBinding) {
-    mFlutterPluginBinding = flutterPluginBinding;
-  }
+  // SpotifyMobileSdkPlugin(FlutterPluginBinding flutterPluginBinding) {
+  // mFlutterPluginBinding = flutterPluginBinding;
+  // }
 
   @Override
   public void onAttachedToEngine(@NonNull final FlutterPluginBinding flutterPluginBinding) {
+    mFlutterPluginBinding = flutterPluginBinding;
     final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(),
         "spotify_mobile_sdk");
-    channel.setMethodCallHandler(new SpotifyMobileSdkPlugin(flutterPluginBinding));
+    // channel.setMethodCallHandler(new
+    // SpotifyMobileSdkPlugin(flutterPluginBinding));
+    channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It
@@ -53,11 +56,10 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   // be defined
   // in the same class.
 
-  // public static void registerWith(final Registrar registrar) {
-  // final MethodChannel channel = new MethodChannel(registrar.messenger(),
-  // "spotify_mobile_sdk");
-  // channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
-  // }
+  public static void registerWith(final Registrar registrar) {
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), "spotify_mobile_sdk");
+    channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
+  }
 
   @Override
   public void onMethodCall(@NonNull final MethodCall call, @NonNull final Result result) {
