@@ -136,7 +136,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-  private void pause(@NonNull Result result) {
+  private bool pause(@NonNull Result result) {
     try {
       mSpotifyAppRemote.getPlayerApi().pause().setResultCallback(result.success(true));
     } catch (final Exception e) {
