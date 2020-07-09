@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     try {
-      await SpotifyMobileSdk.playPlaylist(playlistId: "37i9dQZF1DX2sUQwD7tbmL");
+      // await SpotifyMobileSdk.playPlaylist(playlistId: "37i9dQZF1DX2sUQwD7tbmL");
     } on PlatformException {
       print("PLATFORM EXCEPTION PLAY PLAYLIST");
     }
