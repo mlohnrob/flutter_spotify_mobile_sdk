@@ -53,10 +53,11 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   // be defined
   // in the same class.
 
-  public static void registerWith(final Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "spotify_mobile_sdk");
-    channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
-  }
+  // public static void registerWith(final Registrar registrar) {
+  // final MethodChannel channel = new MethodChannel(registrar.messenger(),
+  // "spotify_mobile_sdk");
+  // channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
+  // }
 
   @Override
   public void onMethodCall(@NonNull final MethodCall call, @NonNull final Result result) {
