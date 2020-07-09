@@ -16,6 +16,7 @@ class SpotifyMobileSdk {
       return await _channel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
     } on PlatformException catch (e) {
       print("Failed to init: $e");
+      return false;
     }
   }
 
@@ -26,9 +27,4 @@ class SpotifyMobileSdk {
       print("PLATFORM EXCEPTION PLAY PLAYLIST");
     }
   }
-
-  // static Future<bool> play({@required String itemId}) async {
-  //   final bool success = await _channel.invokeMethod("play", {"itemId": itemId});
-  //   return success;
-  // }
 }

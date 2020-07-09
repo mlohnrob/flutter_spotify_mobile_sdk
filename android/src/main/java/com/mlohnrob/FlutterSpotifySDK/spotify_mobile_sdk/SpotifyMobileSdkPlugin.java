@@ -22,34 +22,18 @@ import com.spotify.protocol.types.Track;
 
 /** SpotifyMobileSdkPlugin */
 public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
-  // private FlutterPluginBinding mFlutterPluginBinding;
   private Context appContext;
   private MethodChannel methodChannel;
 
   private SpotifyAppRemote mSpotifyAppRemote;
 
-  // SpotifyMobileSdkPlugin(FlutterPluginBinding flutterPluginBinding) {
-  // mFlutterPluginBinding = flutterPluginBinding;
-  // }
-
   public static void registerWith(final Registrar registrar) {
-    // final MethodChannel channel = new MethodChannel(registrar.messenger(),
-    // "spotify_mobile_sdk");
-    // channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
-
     final SpotifyMobileSdkPlugin instance = new SpotifyMobileSdkPlugin();
     instance.onAttachedToEngine(registrar.context(), registrar.messenger());
   }
 
   @Override
   public void onAttachedToEngine(@NonNull final FlutterPluginBinding flutterPluginBinding) {
-    // final MethodChannel channel = new
-    // MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(),
-    // "spotify_mobile_sdk");
-    // // channel.setMethodCallHandler(new
-    // // SpotifyMobileSdkPlugin(flutterPluginBinding));
-    // channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
-
     onAttachedToEngine(flutterPluginBinding.getApplicationContext(), flutterPluginBinding.getBinaryMessenger());
   }
 
@@ -85,9 +69,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       case "playPlaylist":
         final String playlistId = call.argument("playlistId");
         playPlaylist(playlistId, result);
-      case "getPlatformVersion":
-        result.success("ANDROID: " + android.os.Build.VERSION.RELEASE);
-        return;
       default:
         result.notImplemented();
         return;
@@ -98,17 +79,12 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   public void onDetachedFromEngine(@NonNull final FlutterPluginBinding binding) {
   }
 
-  // private static final String CLIENT_ID = "";
-  // private static final String REDIRECT_URL = "";
-
   private void initialize(@NonNull final String clientId, @NonNull final String redirectUri,
       @NonNull final Result result) {
     if (clientId != null && redirectUri != null) {
-      // result.success(true);
       final ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
           .showAuthView(true).build();
 
-      // result.success(true);
       SpotifyAppRemote.disconnect(mSpotifyAppRemote);
 
       mSpotifyAppRemote.connect(this.appContext, connectionParams, new Connector.ConnectionListener() {
@@ -116,21 +92,12 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         @Override
         public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
           mSpotifyAppRemote = spotifyAppRemote;
-          mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
           result.success(true);
-          // Log.d("Spotify App Remote connected!");
-
-          // Logic to do after connection
-          // connected();
         }
 
         @Override
         public void onFailure(final Throwable throwable) {
           result.error("Spotify App Remote: ", throwable.getMessage(), "");
-          // Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
-
-          // Something went wrong with connection
-          // Handle errors here!
         }
       });
 
@@ -144,7 +111,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       SpotifyAppRemote.disconnect(mSpotifyAppRemote);
       result.success(true);
     } catch (final Exception e) {
-      // result.error("Disconnect failed", e.getStackTrace());
+      result.error("Disconnect failed", e.getMessage(), "");
     }
   }
 
