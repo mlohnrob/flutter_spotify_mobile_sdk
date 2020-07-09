@@ -24,13 +24,20 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
-    bool test;
+    bool init;
     // Platform messages may fail, so we use a try/catch PlatformException.
     platformVersion = await SpotifyMobileSdk.platformVersion;
     try {
-      test = await SpotifyMobileSdk.init(clientId: "0dc771e10a68439eb98284d6df51c3d7", redirectUri: "spotify-sdk://auth");
+      init = await SpotifyMobileSdk.init(clientId: "0dc771e10a68439eb98284d6df51c3d7", redirectUri: "spotify-sdk://auth");
     } on PlatformException {
+      print("PLATFORM EXCEPTION INIT");
       platformVersion = 'Failed to get platform version.';
+    }
+
+    try {
+      await SpotifyMobileSdk.playPlaylist(playlistId: "37i9dQZF1DX2sUQwD7tbmL");
+    } on PlatformException {
+      print("PLATFORM EXCEPTION PLAY PLAYLIST");
     }
 
     // If the widget was removed from the tree while the asynchronous platform

@@ -69,6 +69,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         final String redirectUri = call.argument("redirectUri");
         initialize(clientId, redirectUri, result);
         return;
+      case "playPlaylist":
+        final String playlistId = call.argument("playlistId");
+        playPlaylist(playlistId, result);
       case "getPlatformVersion":
         result.success("ANDROID: " + android.os.Build.VERSION.RELEASE);
         return;
