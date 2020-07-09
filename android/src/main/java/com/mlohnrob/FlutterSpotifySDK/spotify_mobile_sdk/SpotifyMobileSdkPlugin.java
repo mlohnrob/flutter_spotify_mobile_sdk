@@ -69,6 +69,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       case "playPlaylist":
         final String playlistId = call.argument("playlistId");
         playPlaylist(playlistId, result);
+        return;
       default:
         result.notImplemented();
         return;
@@ -87,19 +88,23 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
       SpotifyAppRemote.disconnect(mSpotifyAppRemote);
 
-      mSpotifyAppRemote.connect(this.appContext, connectionParams, new Connector.ConnectionListener() {
+      try {
+        mSpotifyAppRemote.connect(this.appContext, connectionParams, new Connector.ConnectionListener() {
 
-        @Override
-        public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
-          mSpotifyAppRemote = spotifyAppRemote;
-          result.success(true);
-        }
+          @Override
+          public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
+            mSpotifyAppRemote = spotifyAppRemote;
+            result.success(true);
+          }
 
-        @Override
-        public void onFailure(final Throwable throwable) {
-          result.error("Spotify App Remote: ", throwable.getMessage(), "");
-        }
-      });
+          @Override
+          public void onFailure(final Throwable throwable) {
+            result.error("Spotify App Remote: ", throwable.getMessage(), "");
+          }
+        });
+      } catch (final Exception e) {
+        result.error("SpotifyAppRemote connect failed", e.getMessage(), "");
+      }
 
     } else {
       result.error("Error Connecting to App Remote! Client ID or Redirect URI is not set", "", "");
