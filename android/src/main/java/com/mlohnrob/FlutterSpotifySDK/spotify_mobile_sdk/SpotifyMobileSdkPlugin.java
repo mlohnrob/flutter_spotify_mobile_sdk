@@ -109,7 +109,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
           .showAuthView(true).build();
 
       // result.success(true);
-      SpotifyAppRemote.disconnect();
+      SpotifyAppRemote.disconnect(mSpotifyAppRemote);
 
       mSpotifyAppRemote.connect(this.appContext, connectionParams, new Connector.ConnectionListener() {
 
