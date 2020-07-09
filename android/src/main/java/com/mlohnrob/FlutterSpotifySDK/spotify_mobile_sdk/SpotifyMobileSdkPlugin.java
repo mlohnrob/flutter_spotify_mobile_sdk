@@ -94,29 +94,28 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
       result.success(true);
 
-      // mSpotifyAppRemote.connect(mFlutterPluginBinding.getApplicationContext(),
-      // connectionParams,
-      // new Connector.ConnectionListener() {
+      mSpotifyAppRemote.connect(mFlutterPluginBinding.getApplicationContext(), connectionParams,
+          new Connector.ConnectionListener() {
 
-      // @Override
-      // public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
-      // mSpotifyAppRemote = spotifyAppRemote;
-      // result.success(true);
-      // // Log.d("Spotify App Remote connected!");
+            @Override
+            public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
+              mSpotifyAppRemote = spotifyAppRemote;
+              result.success(true);
+              // Log.d("Spotify App Remote connected!");
 
-      // // Logic to do after connection
-      // // connected();
-      // }
+              // Logic to do after connection
+              // connected();
+            }
 
-      // @Override
-      // public void onFailure(final Throwable throwable) {
-      // // result.error("Spotify App Remote: ", throwable.getMessage());
-      // // Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
+            @Override
+            public void onFailure(final Throwable throwable) {
+              // result.error("Spotify App Remote: ", throwable.getMessage());
+              // Log.e("Spotify App Remote: ", throwable.getMessage(), throwable);
 
-      // // Something went wrong with connection
-      // // Handle errors here!
-      // }
-      // });
+              // Something went wrong with connection
+              // Handle errors here!
+            }
+          });
 
     } else {
       // result.error("Error Connecting to App Remote! Client ID or Redirect URI is
