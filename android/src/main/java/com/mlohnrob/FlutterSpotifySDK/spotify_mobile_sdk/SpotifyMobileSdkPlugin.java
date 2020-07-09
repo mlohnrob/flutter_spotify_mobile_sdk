@@ -22,33 +22,20 @@ import com.spotify.protocol.types.Track;
 
 /** SpotifyMobileSdkPlugin */
 public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
-  private Context appContext;
+  private FlutterPluginBinding mFlutterPluginBinding;
   private MethodChannel methodChannel;
 
-  public static void registerWith(final Registrar registrar) {
-    final SpotifyMobileSdkPlugin instance = new SpotifyMobileSdkPlugin();
-    instance.onAttachedToEngine(registrar.context(), registrar.messenger());
-    // final MethodChannel channel = new MethodChannel(registrar.messenger(),
-    // "spotify_mobile_sdk");
-    // channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
+  private SpotifyAppRemote mSpotifyAppRemote;
+
+  SpotifyMobileSdkPlugin(FlutterPluginBinding flutterPluginBinding) {
+    mFlutterPluginBinding = flutterPluginBinding;
   }
 
   @Override
   public void onAttachedToEngine(@NonNull final FlutterPluginBinding flutterPluginBinding) {
-    onAttachedToEngine(flutterPluginBinding.getApplicationContext(), flutterPluginBinding.getBinaryMessenger());
-
-    // final MethodChannel channel = new
-    // MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(),
-    // "spotify_mobile_sdk");
-    // channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
-
-    // this.mContext = flutterPluginBinding.getApplicationContext();
-  }
-
-  private void onAttachedToEngine(Context appContext, BinaryMessenger messenger) {
-    this.appContext = appContext;
-    methodChannel = new MethodChannel(messenger, "spotify_mobile_sdk");
-    methodChannel.setMethodCallHandler(this);
+    final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(),
+        "spotify_mobile_sdk");
+    channel.setMethodCallHandler(new SpotifyMobileSdkPlugin(flutterPluginBinding));
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It
@@ -66,6 +53,11 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   // be defined
   // in the same class.
 
+  public static void registerWith(final Registrar registrar) {
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), "spotify_mobile_sdk");
+    channel.setMethodCallHandler(new SpotifyMobileSdkPlugin());
+  }
+
   @Override
   public void onMethodCall(@NonNull final MethodCall call, @NonNull final Result result) {
     switch (call.method) {
@@ -73,12 +65,15 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         final String clientId = call.argument("clientId");
         final String redirectUri = call.argument("redirectUri");
         initialize(clientId, redirectUri, result);
+        return;
         break;
       case "getPlatformVersion":
         result.success("ANDROID: " + android.os.Build.VERSION.RELEASE);
+        return;
         break;
       default:
         result.notImplemented();
+        return;
         break;
     }
   }
@@ -87,20 +82,21 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   public void onDetachedFromEngine(@NonNull final FlutterPluginBinding binding) {
   }
 
-  private SpotifyAppRemote mSpotifyAppRemote;
   // private static final String CLIENT_ID = "";
   // private static final String REDIRECT_URL = "";
 
   private void initialize(@NonNull final String clientId, @NonNull final String redirectUri,
       @NonNull final Result result) {
     if (clientId != null && redirectUri != null) {
-      result.success(true);
-      // final ConnectionParams connectionParams = new
-      // ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
-      // .showAuthView(true).build();
+      // result.success(true);
+      final ConnectionParams connectionParams = new ConnectionParams.Builder(clientId).setRedirectUri(redirectUri)
+          .showAuthView(true).build();
 
-      // mSpotifyAppRemote.connect(this.appContext, connectionParams, new
-      // Connector.ConnectionListener() {
+      result.success(true);
+
+      // mSpotifyAppRemote.connect(mFlutterPluginBinding.getApplicationContext(),
+      // connectionParams,
+      // new Connector.ConnectionListener() {
 
       // @Override
       // public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
