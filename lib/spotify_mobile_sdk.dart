@@ -10,7 +10,7 @@ class SpotifyMobileSdk {
     try {
       return await _channel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
     } on PlatformException catch (e) {
-      print("Failed to init: $e");
+      print("$e");
       return false;
     }
   }
@@ -18,6 +18,14 @@ class SpotifyMobileSdk {
   static Future<void> playPlaylist({@required String playlistId}) async {
     try {
       await _channel.invokeMethod("playPlaylist", {"playlistId": playlistId});
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
+
+  static Future<void> pause() async {
+    try {
+      await _channel.invokeMethod("pause");
     } on PlatformException catch (e) {
       print("$e");
     }

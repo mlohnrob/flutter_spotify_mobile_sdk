@@ -26,7 +26,6 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     bool init;
     // Platform messages may fail, so we use a try/catch PlatformException.
-    platformVersion = await SpotifyMobileSdk.platformVersion;
     try {
       init = await SpotifyMobileSdk.init(clientId: "0dc771e10a68439eb98284d6df51c3d7", redirectUri: "spotify-sdk://auth");
     } on PlatformException {
@@ -34,11 +33,11 @@ class _MyAppState extends State<MyApp> {
       platformVersion = 'Failed to get platform version.';
     }
 
-    try {
-      // await SpotifyMobileSdk.playPlaylist(playlistId: "37i9dQZF1DX2sUQwD7tbmL");
-    } on PlatformException {
-      print("PLATFORM EXCEPTION PLAY PLAYLIST");
-    }
+    // try {
+    //   await SpotifyMobileSdk.playPlaylist(playlistId: "37i9dQZF1DX2sUQwD7tbmL");
+    // } on PlatformException {
+    //   print("PLATFORM EXCEPTION PLAY PLAYLIST");
+    // }
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
@@ -58,8 +57,31 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion, $_init'),
+        body: Column(
+          children: <Widget>[
+            Text("Initialized: $_init"),
+            RaisedButton(
+              child: Text("Play Feel-Good Indie Rock"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.playPlaylist(playlistId: "37i9dQZF1DX2sUQwD7tbmL");
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
+            Divider(),
+            RaisedButton(
+              child: Text("PAUSE"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.pause();
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
