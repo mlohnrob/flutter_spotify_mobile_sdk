@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:spotify_mobile_sdk/spotify_mobile_sdk.dart';
+// import 'package:spotify_mobile_sdk/spotify_mobile_sdk.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('spotify_mobile_sdk');
