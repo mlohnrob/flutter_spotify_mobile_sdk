@@ -63,4 +63,12 @@ class SpotifyMobileSdk {
       print("$e");
     }
   }
+
+  static Future<void> skipPrev() async {
+    try {
+      await _channel.invokeMethod("skipPrev");
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
 }

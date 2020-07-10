@@ -89,6 +89,16 @@ class _MyAppState extends State<MyApp> {
                 }
               },
             ),
+            RaisedButton(
+              child: Text("Queue SAD!"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.queue(spotifyUri: "spotify:track:3ee8Jmje8o58CHK66QrVC2");
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
             Divider(),
             RaisedButton(
               child: Text("PAUSE"),
@@ -116,6 +126,16 @@ class _MyAppState extends State<MyApp> {
               onPressed: () async {
                 try {
                   await SpotifyMobileSdk.skipNext();
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
+            RaisedButton(
+              child: Text("Skip Prev"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.skipPrev();
                 } catch (e) {
                   print("$e");
                 }
