@@ -101,6 +101,17 @@ class _MyAppState extends State<MyApp> {
             ),
             Divider(),
             RaisedButton(
+              child: Text("Toggle Repeat"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.toggleRepeat();
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
+            Divider(),
+            RaisedButton(
               child: Text("PAUSE"),
               onPressed: () async {
                 try {
