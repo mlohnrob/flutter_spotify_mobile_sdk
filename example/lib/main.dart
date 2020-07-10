@@ -186,10 +186,10 @@ class _MyAppState extends State<MyApp> {
             ),
             Divider(),
             RaisedButton(
-              child: Text("Seek 30 seconds ahead"),
+              child: Text("Seek 10 seconds ahead"),
               onPressed: () async {
                 try {
-                  await SpotifyMobileSdk.seekToRelativePosition(milliseconds: 30000);
+                  await SpotifyMobileSdk.seekToRelativePosition(milliseconds: 10000);
                 } catch (e) {
                   print("$e");
                 }
