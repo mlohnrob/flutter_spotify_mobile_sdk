@@ -23,8 +23,8 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 | resume                   | Resumes the current track                                        | :heavy_check_mark:    | :construction_worker: |
 | skipNext                 | Skips to next track                                              | :heavy_check_mark:    | :construction_worker: |
 | skipPrevious             | Skips to previous track                                          | :heavy_check_mark:    | :construction_worker: |
-| seekTo                   | Seeks the current track to the given position in milliseconds    | :construction_worker: | :construction_worker: |
-| seekToRelativePosition   | Adds to the current position of the track the given milliseconds | :construction_worker: | :construction_worker: |
+| seekTo                   | Seeks the current track to the given position in milliseconds    | :heavy_check_mark:    | :construction_worker: |
+| seekToRelativePosition   | Adds to the current position of the track the given milliseconds | :heavy_check_mark:    | :construction_worker: |
 | subscribeToPlayerContext | Subscribes to the current player context                         | :construction_worker: | :construction_worker: |
 | subscribeToPlayerState   | Subscribes to the current player state                           | :construction_worker: | :construction_worker: |
 | getCrossfadeState        | Gets the current crossfade state                                 | :construction_worker: | :construction_worker: |
