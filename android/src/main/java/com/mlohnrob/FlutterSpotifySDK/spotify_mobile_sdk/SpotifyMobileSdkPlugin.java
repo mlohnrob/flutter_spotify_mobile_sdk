@@ -72,6 +72,10 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         return;
       case "pause":
         pause(result);
+        return;
+      case "resume":
+        resume(result);
+        return;
       default:
         result.notImplemented();
         return;
