@@ -95,6 +95,10 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       case "toggleShuffle":
         toggleShuffle(result);
         return;
+      case "seekTo":
+      final int seekToPositionMs = call.argument("positionMs");
+      seekTo((long) seekToPositionMs, result);
+      return;
       default:
         result.notImplemented();
         return;
@@ -127,7 +131,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
             result.error("Spotify App Remote Failure: ", throwable.getMessage(), "");
           }
         });
-      } catch (final Exception e) {
+      } catch (Exception e) {
         result.error("SpotifyAppRemote connect failed", e.getMessage(), "");
       }
 
@@ -140,7 +144,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     try {
       SpotifyAppRemote.disconnect(mSpotifyAppRemote);
       result.success(true);
-    } catch (final Exception e) {
+    } catch (Exception e) {
       result.error("Disconnect failed: ", e.getMessage(), "");
     }
   }
@@ -150,7 +154,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       try {
         mSpotifyAppRemote.getPlayerApi().play(spotifyUri);
         result.success(true);
-      } catch (final Exception e) {
+      } catch (Exception e) {
         result.error("Play failed: ", e.getMessage(), "");
       }
     } else {
@@ -163,7 +167,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       try {
         mSpotifyAppRemote.getPlayerApi().queue(spotifyUri);
         result.success(true);
-      } catch (final Exception e) {
+      } catch (Exception e) {
         result.error("Queue failed: ", e.getMessage(), "");
       }
     } else {
@@ -175,7 +179,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     try {
       mSpotifyAppRemote.getPlayerApi().pause();
       result.success(true);
-    } catch (final Exception e) {
+    } catch (Exception e) {
       result.error("Pause failed: ", e.getMessage(), "");
     }
   }
@@ -184,7 +188,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     try {
       mSpotifyAppRemote.getPlayerApi().resume();
       result.success(true);
-    } catch (final Exception e) {
+    } catch (Exception e) {
       result.error("Resume failed: ", e.getMessage(), "");
     }
   }
@@ -194,7 +198,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     try {
       mSpotifyAppRemote.getPlayerApi().skipNext();
       result.success(true);
-    } catch (final Exception e) {
+    } catch (Exception e) {
       result.error("Skip Next failed: ", e.getMessage(), "");
     }
   }
@@ -204,7 +208,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     try {
       mSpotifyAppRemote.getPlayerApi().skipPrevious();
       result.success(true);
-    } catch (final Exception e) {
+    } catch (Exception e) {
       result.error("Skip Previous failed: ", e.getMessage(), "");
     }
   }
@@ -214,7 +218,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     try {
       mSpotifyAppRemote.getPlayerApi().toggleRepeat();
       result.success(true);
-    } catch (final Exception e) {
+    } catch (Exception e) {
       result.error("Toggle Repeat Failed: ", e.getMessage(), "");
     }
   }
@@ -224,8 +228,17 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     try {
       mSpotifyAppRemote.getPlayerApi().toggleShuffle();
       result.success(true);
-    } catch (final Exception e) {
+    } catch (Exception e) {
       result.error("Toggle Shuffle Failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void seekTo(@NonNull long positionMs, @NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getPlayerApi().seekTo(positionMs);
+      result.success(true);
+    } catch (Exception e) {
+      result.error("Seek to [positionMs] Failed: ", e.getMessage(), "");
     }
   }
 }

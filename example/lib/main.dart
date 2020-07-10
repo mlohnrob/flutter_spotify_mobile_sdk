@@ -123,6 +123,7 @@ class _MyAppState extends State<MyApp> {
             ),
             Divider(),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RaisedButton(
                   child: Text("PAUSE"),
@@ -148,17 +149,8 @@ class _MyAppState extends State<MyApp> {
             ),
             Divider(),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
-                  child: Text("Skip Next"),
-                  onPressed: () async {
-                    try {
-                      await SpotifyMobileSdk.skipNext();
-                    } catch (e) {
-                      print("$e");
-                    }
-                  },
-                ),
                 RaisedButton(
                   child: Text("Skip Prev"),
                   onPressed: () async {
@@ -169,7 +161,28 @@ class _MyAppState extends State<MyApp> {
                     }
                   },
                 ),
+                RaisedButton(
+                  child: Text("Skip Next"),
+                  onPressed: () async {
+                    try {
+                      await SpotifyMobileSdk.skipNext();
+                    } catch (e) {
+                      print("$e");
+                    }
+                  },
+                ),
               ],
+            ),
+            Divider(),
+            RaisedButton(
+              child: Text("Seek to 2.5 minutes"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.seekTo(positionMs: 150000);
+                } catch (e) {
+                  print("$e");
+                }
+              },
             ),
           ],
         ),
