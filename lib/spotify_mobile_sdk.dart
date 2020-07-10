@@ -71,4 +71,12 @@ class SpotifyMobileSdk {
       print("$e");
     }
   }
+
+  static Future<void> toggleRepeat() async {
+    try {
+      await _channel.invokeMethod("toggleRepeat");
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
 }
