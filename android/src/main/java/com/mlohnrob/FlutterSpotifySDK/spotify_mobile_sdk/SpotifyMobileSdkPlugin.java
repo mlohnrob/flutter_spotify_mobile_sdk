@@ -86,6 +86,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       case "skipNext":
         skipNext(result);
         return;
+      case "skipPrev":
+        skipPrev(result);
+        return;
       default:
         result.notImplemented();
         return;
@@ -187,6 +190,16 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.success(true);
     } catch (final Exception e) {
       result.error("Skip Next failed: ", e.getMessage(), "");
+    }
+  }
+
+
+  private void skipPrev(@NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getPlayerApi().skipPrevious();
+      result.success(true);
+    } catch (final Exception e) {
+      result.error("Skip Previous failed: ", e.getMessage(), "");
     }
   }
 }
