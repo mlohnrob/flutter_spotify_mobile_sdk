@@ -19,7 +19,7 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 | getPlayerState           | Gets the current player state                                    | :construction_worker: | :construction_worker: |
 | pause                    | Pauses the current track                                         | :heavy_check_mark:    | :construction_worker: |
 | play                     | Plays the given spotifyUri                                       | :heavy_check_mark:    | :construction_worker: |
-| queue                    | Queues given spotifyUri                                          | :construction_worker: | :construction_worker: |
+| queue                    | Queues given spotifyUri                                          | :heavy_check_mark:    | :construction_worker: |
 | resume                   | Resumes the current track                                        | :heavy_check_mark:    | :construction_worker: |
 | skipNext                 | Skips to next track                                              | :construction_worker: | :construction_worker: |
 | skipPrevious             | Skips to previous track                                          | :construction_worker: | :construction_worker: |

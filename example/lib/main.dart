@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
             Text("Is Connected: $_connected", style: TextStyle(fontSize: 25.0)),
             Divider(),
             RaisedButton(
-              child: Text("Play Feel-Good Indie Rock"),
+              child: Text("Play Lyriske 9mm"),
               onPressed: () async {
                 try {
                   await SpotifyMobileSdk.play(spotifyUri: "spotify:track:5jgxQsZq6njAFQm4V2EUzZ");
@@ -105,6 +105,17 @@ class _MyAppState extends State<MyApp> {
               onPressed: () async {
                 try {
                   await SpotifyMobileSdk.resume();
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
+            Divider(),
+            RaisedButton(
+              child: Text("Skip Next"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.skipNext();
                 } catch (e) {
                   print("$e");
                 }
