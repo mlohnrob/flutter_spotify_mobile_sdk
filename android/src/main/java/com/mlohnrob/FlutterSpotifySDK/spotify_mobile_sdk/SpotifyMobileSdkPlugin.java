@@ -202,4 +202,14 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.error("Skip Previous failed: ", e.getMessage(), "");
     }
   }
+
+
+  private void toggleRepeat(@NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getPlayerApi.toggleRepeat();
+      result.success(true);
+    } catch (final Exception e) {
+      result.error("Toggle Repeat Failed: ", e.getMessage(), "");
+    }
+  }
 }
