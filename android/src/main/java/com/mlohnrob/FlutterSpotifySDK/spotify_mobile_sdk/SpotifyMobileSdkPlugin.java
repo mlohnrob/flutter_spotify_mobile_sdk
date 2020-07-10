@@ -92,6 +92,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       case "toggleRepeat":
         toggleRepeat(result);
         return;
+      case "toggleShuffle":
+        toggleShuffle(result);
+        return;
       default:
         result.notImplemented();
         return;
@@ -213,6 +216,16 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.success(true);
     } catch (final Exception e) {
       result.error("Toggle Repeat Failed: ", e.getMessage(), "");
+    }
+  }
+
+
+  private void toggleShuffle(@NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getPlayerApi().toggleShuffle();
+      result.success(true);
+    } catch (final Exception e) {
+      result.error("Toggle Shuffle Failed: ", e.getMessage(), "");
     }
   }
 }
