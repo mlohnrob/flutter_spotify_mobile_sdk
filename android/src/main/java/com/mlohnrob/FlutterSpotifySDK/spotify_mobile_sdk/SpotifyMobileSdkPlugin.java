@@ -62,7 +62,8 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   public void onMethodCall(@NonNull final MethodCall call, @NonNull final Result result) {
     switch (call.method) {
       case "getIsConnected":
-        return mSpotifyAppRemote.isConnected();
+        result.success(mSpotifyAppRemote.isConnected());
+        return;
       case "initialize":
         final String clientId = call.argument("clientId");
         final String redirectUri = call.argument("redirectUri");
