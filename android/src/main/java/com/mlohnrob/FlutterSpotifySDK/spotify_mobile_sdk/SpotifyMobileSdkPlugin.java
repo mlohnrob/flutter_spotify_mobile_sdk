@@ -96,9 +96,13 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         toggleShuffle(result);
         return;
       case "seekTo":
-      final int seekToPositionMs = call.argument("positionMs");
-      seekTo((long) seekToPositionMs, result);
-      return;
+        final int seekToPositionMs = call.argument("positionMs");
+        seekTo((long) seekToPositionMs, result);
+        return;
+      case "seekToRelativePosition":
+        final int seekToRelativePositionMilliseconds = call.argument("milliseconds");
+        seekToRelativePosition((long) seekToRelativePositionMilliseconds, result);
+        return;
       default:
         result.notImplemented();
         return;
@@ -239,6 +243,15 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.success(true);
     } catch (Exception e) {
       result.error("Seek to [positionMs] Failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void seekToRelativePosition(@NonNull long milliseconds, @NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getPlayerApi().seekToRelativePosition(milliseconds);
+      result.success(true);
+    } catch (Exception e) {
+      result.error("Seek to Relative Position [milliseconds] Failed: ", e.getMessage(), "");
     }
   }
 }
