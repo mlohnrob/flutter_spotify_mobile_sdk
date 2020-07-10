@@ -12,6 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _connected = false;
   bool _init = false;
 
   @override
@@ -22,10 +23,17 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
+    bool connected;
     bool init;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       init = await SpotifyMobileSdk.init(clientId: "0dc771e10a68439eb98284d6df51c3d7", redirectUri: "spotify-sdk://auth");
+    } on PlatformException {
+      print("PLATFORM EXCEPTION INIT");
+    }
+
+    try {
+      connected = await SpotifyMobileSdk.isConnected;
     } on PlatformException {
       print("PLATFORM EXCEPTION INIT");
     }
@@ -43,6 +51,7 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _init = init;
+      _connected = connected;
     });
   }
 
@@ -56,6 +65,8 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: <Widget>[
             Text("Initialized: $_init", style: TextStyle(fontSize: 25.0)),
+            Divider(),
+            Text("Is Connected: $_connected", style: TextStyle(fontSize: 25.0)),
             Divider(),
             RaisedButton(
               child: Text("Play Feel-Good Indie Rock"),
