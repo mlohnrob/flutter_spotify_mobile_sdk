@@ -95,6 +95,10 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       case "toggleShuffle":
         toggleShuffle(result);
         return;
+      case "seekTo":
+      final long seekToPositionMs = call.argument("positionMs");
+      seekTo(seekToPositionMs, result);
+      return;
       default:
         result.notImplemented();
         return;
