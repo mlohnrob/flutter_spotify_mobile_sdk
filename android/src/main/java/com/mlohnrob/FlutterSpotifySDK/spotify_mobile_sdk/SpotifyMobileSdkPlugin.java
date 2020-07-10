@@ -65,17 +65,17 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         result.success(mSpotifyAppRemote.isConnected());
         return;
       case "initialize":
-        final String clientId = call.argument("clientId");
-        final String redirectUri = call.argument("redirectUri");
-        initialize(clientId, redirectUri, result);
+        final String initClientId = call.argument("clientId");
+        final String initRedirectUri = call.argument("redirectUri");
+        initialize(initClientId, initRedirectUri, result);
         return;
       case "play":
-        final String spotifyUri = call.argument("spotifyUri");
-        play(spotifyUri, result);
+        final String playSpotifyUri = call.argument("spotifyUri");
+        play(playSpotifyUri, result);
         return;
       case "queue":
-        final String spotifyUri = call.argument("spotifyUri");
-        queue(spotifyUri, result);
+        final String queueSpotifyUri = call.argument("spotifyUri");
+        queue(queueSpotifyUri, result);
         return;
       case "pause":
         pause(result);
