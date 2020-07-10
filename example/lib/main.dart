@@ -122,46 +122,54 @@ class _MyAppState extends State<MyApp> {
               },
             ),
             Divider(),
-            RaisedButton(
-              child: Text("PAUSE"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.pause();
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-            RaisedButton(
-              child: Text("RESUME"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.resume();
-                } catch (e) {
-                  print("$e");
-                }
-              },
+            Row(
+              children: <Widget>[
+                RaisedButton(
+                  child: Text("PAUSE"),
+                  onPressed: () async {
+                    try {
+                      await SpotifyMobileSdk.pause();
+                    } catch (e) {
+                      print("$e");
+                    }
+                  },
+                ),
+                RaisedButton(
+                  child: Text("RESUME"),
+                  onPressed: () async {
+                    try {
+                      await SpotifyMobileSdk.resume();
+                    } catch (e) {
+                      print("$e");
+                    }
+                  },
+                ),
+              ],
             ),
             Divider(),
-            RaisedButton(
-              child: Text("Skip Next"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.skipNext();
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-            RaisedButton(
-              child: Text("Skip Prev"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.skipPrev();
-                } catch (e) {
-                  print("$e");
-                }
-              },
+            Row(
+              children: <Widget>[
+                RaisedButton(
+                  child: Text("Skip Next"),
+                  onPressed: () async {
+                    try {
+                      await SpotifyMobileSdk.skipNext();
+                    } catch (e) {
+                      print("$e");
+                    }
+                  },
+                ),
+                RaisedButton(
+                  child: Text("Skip Prev"),
+                  onPressed: () async {
+                    try {
+                      await SpotifyMobileSdk.skipPrev();
+                    } catch (e) {
+                      print("$e");
+                    }
+                  },
+                ),
+              ],
             ),
           ],
         ),
