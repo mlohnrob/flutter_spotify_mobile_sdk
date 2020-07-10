@@ -6,6 +6,15 @@ import 'package:flutter/foundation.dart';
 class SpotifyMobileSdk {
   static const MethodChannel _channel = const MethodChannel('spotify_mobile_sdk');
 
+  static Future<bool> get isConnected async {
+    try {
+      return await _channel.invokeMethod("getIsConnected");
+    } on PlatformException catch (e) {
+      print("$e");
+      return false;
+    }
+  }
+
   static Future<bool> init({@required String clientId, @required String redirectUri}) async {
     try {
       return await _channel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
