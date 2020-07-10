@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
     bool init;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      init = await SpotifyMobileSdk.init(clientId: "0dc771e10a68439eb98284d6df51c3d7", redirectUri: "spotify-sdk://auth");
+      init = await SpotifyMobileSdk.init(clientId: "e2e3774bb3224432b7161b7680538458", redirectUri: "spotify-sdk://auth");
     } on PlatformException {
       print("PLATFORM EXCEPTION INIT");
     }
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
               child: Text("Play Feel-Good Indie Rock"),
               onPressed: () async {
                 try {
-                  await SpotifyMobileSdk.play(spotifyUri: "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
+                  await SpotifyMobileSdk.play(spotifyUri: "spotify:track:5jgxQsZq6njAFQm4V2EUzZ");
                 } catch (e) {
                   print("$e");
                 }
@@ -80,10 +80,10 @@ class _MyAppState extends State<MyApp> {
             ),
             Divider(),
             RaisedButton(
-              child: Text("Queue alt (playlist)"),
+              child: Text("Queue Congratulations"),
               onPressed: () async {
                 try {
-                  await SpotifyMobileSdk.queue(spotifyUri: "spotify:playlist:00NDLwgEb6sbejjrFziYMT");
+                  await SpotifyMobileSdk.queue(spotifyUri: "spotify:track:3a1lNhkSLSkpJE4MSHpDu9");
                 } catch (e) {
                   print("$e");
                 }
