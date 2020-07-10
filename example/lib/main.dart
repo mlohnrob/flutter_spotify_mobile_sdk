@@ -110,6 +110,17 @@ class _MyAppState extends State<MyApp> {
                 }
               },
             ),
+            Divider(),
+            RaisedButton(
+              child: Text("Skip Next"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.skipNext();
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
           ],
         ),
       ),
