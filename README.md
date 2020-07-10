@@ -29,7 +29,7 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 | subscribeToPlayerState   | Subscribes to the current player state                           | :construction_worker: | :construction_worker: |
 | getCrossfadeState        | Gets the current crossfade state                                 | :construction_worker: | :construction_worker: |
 | toggleShuffle            | Cycles through the shuffle modes                                 | :construction_worker: | :construction_worker: |
-| toggleRepeat             | Cycles through the repeat modes                                  | :construction_worker: | :construction_worker: |
+| toggleRepeat             | Cycles through the repeat modes                                  | :heavy_check_mark:    | :construction_worker: |
 
 #### Images Api
 
