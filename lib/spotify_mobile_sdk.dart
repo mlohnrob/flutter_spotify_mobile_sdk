@@ -79,4 +79,12 @@ class SpotifyMobileSdk {
       print("$e");
     }
   }
+
+  static Future<void> toggleShuffle() async {
+    try {
+      await _channel.invokeMethod("toggleShuffle");
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
 }
