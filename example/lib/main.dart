@@ -12,7 +12,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
   bool _init = false;
 
   @override
@@ -23,14 +22,12 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
     bool init;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       init = await SpotifyMobileSdk.init(clientId: "0dc771e10a68439eb98284d6df51c3d7", redirectUri: "spotify-sdk://auth");
     } on PlatformException {
       print("PLATFORM EXCEPTION INIT");
-      platformVersion = 'Failed to get platform version.';
     }
 
     // try {
@@ -45,7 +42,6 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
       _init = init;
     });
   }
@@ -55,11 +51,12 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Spotify SDK Plugin Example APP'),
         ),
         body: Column(
           children: <Widget>[
-            Text("Initialized: $_init"),
+            Text("Initialized: $_init", style: TextStyle(fontSize: 25.0)),
+            Divider(),
             RaisedButton(
               child: Text("Play Feel-Good Indie Rock"),
               onPressed: () async {
@@ -76,6 +73,16 @@ class _MyAppState extends State<MyApp> {
               onPressed: () async {
                 try {
                   await SpotifyMobileSdk.pause();
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
+            RaisedButton(
+              child: Text("RESUME"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.resume();
                 } catch (e) {
                   print("$e");
                 }

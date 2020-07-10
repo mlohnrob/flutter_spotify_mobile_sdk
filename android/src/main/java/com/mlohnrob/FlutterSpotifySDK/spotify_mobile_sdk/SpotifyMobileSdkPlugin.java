@@ -72,6 +72,10 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         return;
       case "pause":
         pause(result);
+        return;
+      case "resume":
+        resume(result);
+        return;
       default:
         result.notImplemented();
         return;
@@ -101,7 +105,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
           @Override
           public void onFailure(final Throwable throwable) {
-            result.error("Spotify App Remote: ", throwable.getMessage(), "");
+            result.error("Spotify App Remote Failure: ", throwable.getMessage(), "");
           }
         });
       } catch (final Exception e) {
@@ -138,11 +142,19 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
   private void pause(@NonNull Result result) {
     try {
-      // mSpotifyAppRemote.getPlayerApi().pause().setResultCallback(result.success(true));
       mSpotifyAppRemote.getPlayerApi().pause();
       result.success(true);
     } catch (final Exception e) {
       result.error("Pause failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void resume(@NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getPlayerApi().resume();
+      result.success(true);
+    } catch (final Exception e) {
+      result.error("Resume failed: ", e.getMessage(), "");
     }
   }
 }
