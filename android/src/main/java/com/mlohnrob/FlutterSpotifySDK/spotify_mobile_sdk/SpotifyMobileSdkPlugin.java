@@ -65,13 +65,17 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         result.success(mSpotifyAppRemote.isConnected());
         return;
       case "initialize":
-        final String clientId = call.argument("clientId");
-        final String redirectUri = call.argument("redirectUri");
-        initialize(clientId, redirectUri, result);
+        final String initClientId = call.argument("clientId");
+        final String initRedirectUri = call.argument("redirectUri");
+        initialize(initClientId, initRedirectUri, result);
         return;
       case "play":
-        final String spotifyUri = call.argument("spotifyUri");
-        play(spotifyUri, result);
+        final String playSpotifyUri = call.argument("spotifyUri");
+        play(playSpotifyUri, result);
+        return;
+      case "queue":
+        final String queueSpotifyUri = call.argument("spotifyUri");
+        queue(queueSpotifyUri, result);
         return;
       case "pause":
         pause(result);
@@ -139,6 +143,19 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       }
     } else {
       result.error("Play failed: [spotifyUri] is null", "", "");
+    }
+  }
+
+  private void queue(@NonNull final String spotifyUri, @NonNull final Result result) {
+    if (spotifyUri != null) {
+      try {
+        mSpotifyAppRemote.getPlayerApi().queue(spotifyUri);
+        result.success(true);
+      } catch (final Exception e) {
+        result.error("Queue failed: ", e.getMessage(), "");
+      }
+    } else {
+      result.error("Queue failed: [spotifyUri] is null", "", "");
     }
   }
 

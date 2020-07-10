@@ -32,6 +32,14 @@ class SpotifyMobileSdk {
     }
   }
 
+  static Future<void> queue({@required String spotifyUri}) async {
+    try {
+      await _channel.invokeMethod("queue", {"spotifyUri": spotifyUri});
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
+
   static Future<void> pause() async {
     try {
       await _channel.invokeMethod("pause");
