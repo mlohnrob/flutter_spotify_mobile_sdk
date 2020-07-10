@@ -80,6 +80,17 @@ class _MyAppState extends State<MyApp> {
             ),
             Divider(),
             RaisedButton(
+              child: Text("Queue alt (playlist)"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.queue(spotifyUri: "spotify:playlist:00NDLwgEb6sbejjrFziYMT");
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
+            Divider(),
+            RaisedButton(
               child: Text("PAUSE"),
               onPressed: () async {
                 try {
