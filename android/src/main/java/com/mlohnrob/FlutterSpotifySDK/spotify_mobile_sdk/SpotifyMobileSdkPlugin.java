@@ -105,7 +105,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
           @Override
           public void onFailure(final Throwable throwable) {
-            result.error("Spotify App Remote: ", throwable.getMessage(), "");
+            result.error("Spotify App Remote Failure: ", throwable.getMessage(), "");
           }
         });
       } catch (final Exception e) {

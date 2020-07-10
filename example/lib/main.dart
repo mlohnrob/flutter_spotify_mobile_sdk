@@ -78,6 +78,16 @@ class _MyAppState extends State<MyApp> {
                 }
               },
             ),
+            RaisedButton(
+              child: Text("RESUME"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.resume();
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
           ],
         ),
       ),
