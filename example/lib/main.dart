@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
               child: Text("Play Feel-Good Indie Rock"),
               onPressed: () async {
                 try {
-                  await SpotifyMobileSdk.playPlaylist(playlistId: "37i9dQZF1DX2sUQwD7tbmL");
+                  await SpotifyMobileSdk.play(spotifyUri: "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
                 } catch (e) {
                   print("$e");
                 }
