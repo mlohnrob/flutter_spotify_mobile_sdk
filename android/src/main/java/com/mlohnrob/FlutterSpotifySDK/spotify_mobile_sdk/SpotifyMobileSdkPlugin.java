@@ -84,7 +84,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         resume(result);
         return;
       case "skipNext":
-        skipnext(result);
+        skipNext(result);
         return;
       default:
         result.notImplemented();
