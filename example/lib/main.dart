@@ -184,6 +184,17 @@ class _MyAppState extends State<MyApp> {
                 }
               },
             ),
+            Divider(),
+            RaisedButton(
+              child: Text("Seek 10 seconds ahead"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.seekToRelativePosition(milliseconds: 10000);
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
           ],
         ),
       ),

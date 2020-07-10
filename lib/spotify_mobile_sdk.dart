@@ -95,4 +95,12 @@ class SpotifyMobileSdk {
       print("$e");
     }
   }
+
+  static Future<void> seekToRelativePosition({@required int milliseconds}) async {
+    try {
+      await _channel.invokeMethod("seekToRelativePosition", {"milliseconds": milliseconds});
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
 }
