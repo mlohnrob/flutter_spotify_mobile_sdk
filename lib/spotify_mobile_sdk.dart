@@ -87,4 +87,12 @@ class SpotifyMobileSdk {
       print("$e");
     }
   }
+
+  static Future<void> seekTo({@required int positionMs}) async {
+    try {
+      await _channel.invokeMethod("seekTo", {"positionMs": positionMs});
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
 }
