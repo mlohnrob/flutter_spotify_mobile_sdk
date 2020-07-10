@@ -171,6 +171,17 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
+            Divider(),
+            RaisedButton(
+              child: Text("Seek to 2.5 minutes"),
+              onPressed: () async {
+                try {
+                  await SpotifyMobileSdk.seekTo(positionMs: 150000);
+                } catch (e) {
+                  print("$e");
+                }
+              },
+            ),
           ],
         ),
       ),
