@@ -21,8 +21,8 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 | play                     | Plays the given spotifyUri                                       | :heavy_check_mark:    | :construction_worker: |
 | queue                    | Queues given spotifyUri                                          | :heavy_check_mark:    | :construction_worker: |
 | resume                   | Resumes the current track                                        | :heavy_check_mark:    | :construction_worker: |
-| skipNext                 | Skips to next track                                              | :construction_worker: | :construction_worker: |
-| skipPrevious             | Skips to previous track                                          | :construction_worker: | :construction_worker: |
+| skipNext                 | Skips to next track                                              | :heavy_check_mark:    | :construction_worker: |
+| skipPrevious             | Skips to previous track                                          | :heavy_check_mark:    | :construction_worker: |
 | seekTo                   | Seeks the current track to the given position in milliseconds    | :construction_worker: | :construction_worker: |
 | seekToRelativePosition   | Adds to the current position of the track the given milliseconds | :construction_worker: | :construction_worker: |
 | subscribeToPlayerContext | Subscribes to the current player context                         | :construction_worker: | :construction_worker: |
