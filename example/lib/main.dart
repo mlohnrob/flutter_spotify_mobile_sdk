@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
     bool connected;
     bool init;
 
-    SpotifyCrossFadeState crossFadeState;
+    SpotifyCrossFadeState crossfadeState;
     bool crossFadeEnabled;
     int crossFadeDuration;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -47,9 +47,9 @@ class _MyAppState extends State<MyApp> {
     }
 
     try {
-      crossFadeState = await SpotifyMobileSdk.crossFadeState;
-      crossFadeEnabled = crossFadeState.isEnabled;
-      crossFadeDuration = crossFadeState.duration;
+      crossfadeState = await SpotifyMobileSdk.crossfadeState;
+      crossFadeEnabled = crossfadeState.isEnabled;
+      crossFadeDuration = crossfadeState.duration;
     } on PlatformException {
       print("PLATFORM EXCEPTION INIT");
     }

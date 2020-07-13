@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import android.content.Context;
 
+import java.util.HashMap;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -18,7 +20,7 @@ import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
-import com.spotify.protocol.types.CrossFadeState;
+import com.spotify.protocol.types.CrossfadeState;
 import com.spotify.protocol.types.Track;
 
 /** SpotifyMobileSdkPlugin */
@@ -255,15 +257,32 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-  private void getCrossFadeState(@NonNull Result result) {
-    try {
-      final CrossFadeState crossFadeState = mSpotifyAppRemote.getPlayerApi().getCrossFadeState();
-      final HashMap<String, dynamic> crossFadeStateMap = new HashMap<String, dynamic>();
-      crossFadeStateMap.put("isEnabled", crossFadeState.isEnabled);
-      crossFadeStateMap.put("duration", crossFadeState.duration);
-      result.success(crossFadeStateMap);
-    } catch (Exception e) {
-      result.error("Get CrossFade State Failed: ", e.getMessage(), "");
-    }
-  }
+  // TODO: Make This shit work:
+  // private void getCrossFadeState(@NonNull Result result) {
+  // try {
+  // // final CrossfadeState crossfadeState;
+  // mSpotifyAppRemote.getPlayerApi().getCrossfadeState()
+  // .setResultCallback(sendCrossFadeState(crossfadeState, result));
+  // // final HashMap<String, Object> crossFadeStateMap = new HashMap<String,
+  // // Object>();
+  // // crossFadeStateMap.put("isEnabled", crossfadeState.isEnabled);
+  // // crossFadeStateMap.put("duration", crossfadeState.duration);
+  // // result.success(crossFadeStateMap);
+  // } catch (Exception e) {
+  // result.error("Get CrossFade State Failed: ", e.getMessage(), "");
+  // }
+  // }
+
+  // private void sendCrossFadeState(@NonNull CrossfadeState crossfadeState,
+  // @NonNull Result result) {
+  // try {
+  // final HashMap<String, Object> crossFadeStateMap = new HashMap<String,
+  // Object>();
+  // crossFadeStateMap.put("isEnabled", crossfadeState.isEnabled);
+  // crossFadeStateMap.put("duration", crossfadeState.duration);
+  // result.success(crossFadeStateMap);
+  // } catch (Exception e) {
+  // result.error("Get CrossFade State Failed: ", e.getMessage(), "");
+  // }
+  // }
 }
