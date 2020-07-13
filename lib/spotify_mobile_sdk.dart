@@ -15,6 +15,8 @@ class SpotifyMobileSdk {
     }
   }
 
+  static Future<CrossFadeState> get crossFadeState async {}
+
   static Future<bool> init({@required String clientId, @required String redirectUri}) async {
     try {
       return await _channel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
