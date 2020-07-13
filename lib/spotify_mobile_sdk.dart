@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 
+import 'models/crossfade_state_model.dart';
+
 class SpotifyMobileSdk {
   static const MethodChannel _channel = const MethodChannel('spotify_mobile_sdk');
 
@@ -15,7 +17,15 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<CrossFadeState> get crossFadeState async {}
+  static Future<CrossFadeState> get crossFadeState async {
+    try {
+      final Map<String, dynamic> crossFadeStateMap = await _channel.invokeMethod("getCrossFadeState");
+      final CrossFadeState crossFadeState = CrossFadeState.fromMap(crossFadeStateMap);
+      return crossFadeState;
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
 
   static Future<bool> init({@required String clientId, @required String redirectUri}) async {
     try {
