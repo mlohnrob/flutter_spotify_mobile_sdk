@@ -27,7 +27,6 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 | seekToRelativePosition   | Adds to the current position of the track the given milliseconds | :heavy_check_mark:    | :construction_worker: |
 | subscribeToPlayerContext | Subscribes to the current player context                         | :construction_worker: | :construction_worker: |
 | subscribeToPlayerState   | Subscribes to the current player state                           | :construction_worker: | :construction_worker: |
-| getCrossfadeState        | Gets the current crossfade state                                 | :construction_worker: | :construction_worker: |
 | toggleShuffle            | Cycles through the shuffle modes                                 | :heavy_check_mark:    | :construction_worker: |
 | toggleRepeat             | Cycles through the repeat modes                                  | :heavy_check_mark:    | :construction_worker: |
 
