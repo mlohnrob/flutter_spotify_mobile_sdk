@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 
-import 'models/crossfade_state_model.dart';
+// import 'models/crossfade_state_model.dart';
 
 class SpotifyMobileSdk {
   static const MethodChannel _channel = const MethodChannel('spotify_mobile_sdk');
@@ -24,6 +24,7 @@ class SpotifyMobileSdk {
       return crossFadeState;
     } on PlatformException catch (e) {
       print("$e");
+      return null;
     }
   }
 
@@ -115,4 +116,15 @@ class SpotifyMobileSdk {
       print("$e");
     }
   }
+}
+
+class SpotifyCrossFadeState {
+  final bool isEnabled;
+  final int duration;
+
+  SpotifyCrossFadeState(this.isEnabled, this.duration);
+
+  SpotifyCrossFadeState.fromMap(Map<String, dynamic> map)
+      : isEnabled = map["isEnabled"],
+        duration = map["duration"];
 }

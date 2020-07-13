@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:spotify_mobile_sdk/spotify_mobile_sdk.dart';
+// import 'package:spotify_mobile_sdk/models/crossfade_state_model.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +16,9 @@ class _MyAppState extends State<MyApp> {
   bool _connected = false;
   bool _init = false;
 
+  bool _crossFadeEnabled;
+  int _crossFadeDuration;
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +29,10 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     bool connected;
     bool init;
+
+    SpotifyCrossFadeState crossFadeState;
+    bool crossFadeEnabled;
+    int crossFadeDuration;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       init = await SpotifyMobileSdk.init(clientId: "e2e3774bb3224432b7161b7680538458", redirectUri: "spotify-sdk://auth");
@@ -34,6 +42,14 @@ class _MyAppState extends State<MyApp> {
 
     try {
       connected = await SpotifyMobileSdk.isConnected;
+    } on PlatformException {
+      print("PLATFORM EXCEPTION INIT");
+    }
+
+    try {
+      crossFadeState = await SpotifyMobileSdk.crossFadeState;
+      crossFadeEnabled = crossFadeState.isEnabled;
+      crossFadeDuration = crossFadeState.duration;
     } on PlatformException {
       print("PLATFORM EXCEPTION INIT");
     }
@@ -67,6 +83,14 @@ class _MyAppState extends State<MyApp> {
             Text("Initialized: $_init", style: TextStyle(fontSize: 25.0)),
             Divider(),
             Text("Is Connected: $_connected", style: TextStyle(fontSize: 25.0)),
+            Divider(),
+            Text("Cross Fade State:"),
+            Row(
+              children: <Widget>[
+                Text("Is Enabled: $_crossFadeEnabled", style: TextStyle(fontSize: 25.0)),
+                Text("Duration: $_crossFadeDuration", style: TextStyle(fontSize: 25.0)),
+              ],
+            ),
             Divider(),
             RaisedButton(
               child: Text("Play Lyriske 9mm"),
