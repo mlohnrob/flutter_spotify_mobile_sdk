@@ -18,6 +18,7 @@ import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.CrossFadeState;
 import com.spotify.protocol.types.Track;
 
 /** SpotifyMobileSdkPlugin */
@@ -63,6 +64,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     switch (call.method) {
       case "getIsConnected":
         result.success(mSpotifyAppRemote.isConnected());
+        return;
+      case "getCrossFadeState":
+        getCrossFadeState(result);
         return;
       case "initialize":
         final String initClientId = call.argument("clientId");
@@ -197,7 +201,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-
   private void skipNext(@NonNull Result result) {
     try {
       mSpotifyAppRemote.getPlayerApi().skipNext();
@@ -206,7 +209,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.error("Skip Next failed: ", e.getMessage(), "");
     }
   }
-
 
   private void skipPrev(@NonNull Result result) {
     try {
@@ -217,7 +219,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-
   private void toggleRepeat(@NonNull Result result) {
     try {
       mSpotifyAppRemote.getPlayerApi().toggleRepeat();
@@ -226,7 +227,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.error("Toggle Repeat Failed: ", e.getMessage(), "");
     }
   }
-
 
   private void toggleShuffle(@NonNull Result result) {
     try {
@@ -252,6 +252,18 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.success(true);
     } catch (Exception e) {
       result.error("Seek to Relative Position [milliseconds] Failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void getCrossFadeState(@NonNull Result result) {
+    try {
+      final CrossFadeState crossFadeState = mSpotifyAppRemote.getPlayerApi().getCrossFadeState();
+      final HashMap<String, dynamic> crossFadeStateMap = new HashMap<String, dynamic>();
+      crossFadeStateMap.put("isEnabled", crossFadeState.isEnabled);
+      crossFadeStateMap.put("duration", crossFadeState.duration);
+      result.success(crossFadeStateMap);
+    } catch (Exception e) {
+      result.error("Get CrossFade State Failed: ", e.getMessage(), "");
     }
   }
 }
