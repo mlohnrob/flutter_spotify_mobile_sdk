@@ -21,6 +21,7 @@ import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.CrossfadeState;
+import com.spotify.protocol.client.CallResult;
 import com.spotify.protocol.types.Track;
 
 /** SpotifyMobileSdkPlugin */
@@ -259,19 +260,37 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
   // TODO: Make This shit work:
   // private void getCrossFadeState(@NonNull Result result) {
+  //   boolean crossfadeStateYes;
   // try {
   // // final CrossfadeState crossfadeState;
-  // mSpotifyAppRemote.getPlayerApi().getCrossfadeState()
-  // .setResultCallback(sendCrossFadeState(crossfadeState, result));
-  // // final HashMap<String, Object> crossFadeStateMap = new HashMap<String,
-  // // Object>();
+  // crossfadeStateYes = mSpotifyAppRemote.getPlayerApi().getCrossfadeState().await(5, java.util.concurrent.TimeUnit.SECONDS).isSuccessful();
+  // //.setResultCallback(sendCrossFadeState(crossfadeState, result));
+  // HashMap crossFadeStateMap = new HashMap();
   // // crossFadeStateMap.put("isEnabled", crossfadeState.isEnabled);
   // // crossFadeStateMap.put("duration", crossfadeState.duration);
-  // // result.success(crossFadeStateMap);
+
+  // crossFadeStateMap.put("isEnabled", crossfadeStateYes);
+  // crossFadeStateMap.put("duration", 3);
+  // result.success(crossFadeStateMap);
   // } catch (Exception e) {
   // result.error("Get CrossFade State Failed: ", e.getMessage(), "");
   // }
   // }
+
+  private void getCrossFadeState(@NonNull Result result) {
+    HashMap<String, Object> crossFadeStateMap = new HashMap<String, Object>();
+    try {
+      mSpotifyAppRemote.getPlayerApi().getCrossfadeState().setResultCallback(crossfadeState -> {
+        crossFadeStateMap.put("isEnabled", crossfadeState.isEnabled);
+        crossFadeStateMap.put("duration", crossfadeState.duration);
+        result.success(crossFadeStateMap);
+      }).setErrorCallback(throwable -> {
+        result.error("Get Crossfade State Failed: ", throwable.getMessage(), "");
+      });
+    } catch (Exception e) {
+      result.error("Get Crossfade State Failed: ", e.getMessage(), "");
+    }
+  }
 
   // private void sendCrossFadeState(@NonNull CrossfadeState crossfadeState,
   // @NonNull Result result) {
