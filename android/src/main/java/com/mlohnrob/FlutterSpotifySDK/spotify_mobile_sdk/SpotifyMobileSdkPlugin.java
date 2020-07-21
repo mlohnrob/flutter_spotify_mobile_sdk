@@ -258,25 +258,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-  // TODO: Make This shit work:
-  // private void getCrossFadeState(@NonNull Result result) {
-  //   boolean crossfadeStateYes;
-  // try {
-  // // final CrossfadeState crossfadeState;
-  // crossfadeStateYes = mSpotifyAppRemote.getPlayerApi().getCrossfadeState().await(5, java.util.concurrent.TimeUnit.SECONDS).isSuccessful();
-  // //.setResultCallback(sendCrossFadeState(crossfadeState, result));
-  // HashMap crossFadeStateMap = new HashMap();
-  // // crossFadeStateMap.put("isEnabled", crossfadeState.isEnabled);
-  // // crossFadeStateMap.put("duration", crossfadeState.duration);
-
-  // crossFadeStateMap.put("isEnabled", crossfadeStateYes);
-  // crossFadeStateMap.put("duration", 3);
-  // result.success(crossFadeStateMap);
-  // } catch (Exception e) {
-  // result.error("Get CrossFade State Failed: ", e.getMessage(), "");
-  // }
-  // }
-
   private void getCrossFadeState(@NonNull Result result) {
     HashMap<String, Object> crossFadeStateMap = new HashMap<String, Object>();
     try {
@@ -291,17 +272,4 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.error("Get Crossfade State Failed: ", e.getMessage(), "");
     }
   }
-
-  // private void sendCrossFadeState(@NonNull CrossfadeState crossfadeState,
-  // @NonNull Result result) {
-  // try {
-  // final HashMap<String, Object> crossFadeStateMap = new HashMap<String,
-  // Object>();
-  // crossFadeStateMap.put("isEnabled", crossfadeState.isEnabled);
-  // crossFadeStateMap.put("duration", crossfadeState.duration);
-  // result.success(crossFadeStateMap);
-  // } catch (Exception e) {
-  // result.error("Get CrossFade State Failed: ", e.getMessage(), "");
-  // }
-  // }
 }
