@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:spotify_mobile_sdk/spotify_mobile_sdk.dart';
+// import 'package:spotify_mobile_sdk/models/crossfade_state_model.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +16,9 @@ class _MyAppState extends State<MyApp> {
   bool _connected = false;
   bool _init = false;
 
+  bool _crossfadeEnabled;
+  int _crossfadeDuration;
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +29,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     bool connected;
     bool init;
+
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       init = await SpotifyMobileSdk.init(clientId: "e2e3774bb3224432b7161b7680538458", redirectUri: "spotify-sdk://auth");
@@ -35,14 +40,8 @@ class _MyAppState extends State<MyApp> {
     try {
       connected = await SpotifyMobileSdk.isConnected;
     } on PlatformException {
-      print("PLATFORM EXCEPTION INIT");
+      print("PLATFORM EXCEPTION 2");
     }
-
-    // try {
-    //   await SpotifyMobileSdk.playPlaylist(playlistId: "37i9dQZF1DX2sUQwD7tbmL");
-    // } on PlatformException {
-    //   print("PLATFORM EXCEPTION PLAY PLAYLIST");
-    // }
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
@@ -52,6 +51,25 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _init = init;
       _connected = connected;
+    });
+  }
+
+  Future<void> getCrossfadeStateNow() async {
+    SpotifyCrossFadeState crossfadeState;
+    bool crossfadeEnabled;
+    int crossfadeDuration;
+
+    try {
+      crossfadeState = await SpotifyMobileSdk.crossfadeState;
+      crossfadeEnabled = crossfadeState.isEnabled;
+      crossfadeDuration = crossfadeState.duration;
+    } on PlatformException {
+      print("PLATFORM EXCEPTION 3");
+    }
+
+    setState(() {
+      _crossfadeEnabled = crossfadeEnabled;
+      _crossfadeDuration = crossfadeDuration;
     });
   }
 
@@ -67,6 +85,19 @@ class _MyAppState extends State<MyApp> {
             Text("Initialized: $_init", style: TextStyle(fontSize: 25.0)),
             Divider(),
             Text("Is Connected: $_connected", style: TextStyle(fontSize: 25.0)),
+            Divider(),
+            RaisedButton(
+              child: Text("Get Crossfade State"),
+              onPressed: () async {
+                await getCrossfadeStateNow();
+              },
+            ),
+            Row(
+              children: <Widget>[
+                Text("Is Enabled: $_crossfadeEnabled", style: TextStyle(fontSize: 25.0)),
+                Text("Duration: $_crossfadeDuration", style: TextStyle(fontSize: 25.0)),
+              ],
+            ),
             Divider(),
             RaisedButton(
               child: Text("Play Lyriske 9mm"),

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import android.content.Context;
 
+import java.util.HashMap;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -18,6 +20,8 @@ import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.CrossfadeState;
+import com.spotify.protocol.client.CallResult;
 import com.spotify.protocol.types.Track;
 
 /** SpotifyMobileSdkPlugin */
@@ -63,6 +67,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     switch (call.method) {
       case "getIsConnected":
         result.success(mSpotifyAppRemote.isConnected());
+        return;
+      case "getCrossFadeState":
+        getCrossFadeState(result);
         return;
       case "initialize":
         final String initClientId = call.argument("clientId");
@@ -197,7 +204,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-
   private void skipNext(@NonNull Result result) {
     try {
       mSpotifyAppRemote.getPlayerApi().skipNext();
@@ -206,7 +212,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.error("Skip Next failed: ", e.getMessage(), "");
     }
   }
-
 
   private void skipPrev(@NonNull Result result) {
     try {
@@ -217,7 +222,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-
   private void toggleRepeat(@NonNull Result result) {
     try {
       mSpotifyAppRemote.getPlayerApi().toggleRepeat();
@@ -226,7 +230,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.error("Toggle Repeat Failed: ", e.getMessage(), "");
     }
   }
-
 
   private void toggleShuffle(@NonNull Result result) {
     try {
@@ -252,6 +255,21 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.success(true);
     } catch (Exception e) {
       result.error("Seek to Relative Position [milliseconds] Failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void getCrossFadeState(@NonNull Result result) {
+    HashMap<String, Object> crossFadeStateMap = new HashMap<String, Object>();
+    try {
+      mSpotifyAppRemote.getPlayerApi().getCrossfadeState().setResultCallback(crossfadeState -> {
+        crossFadeStateMap.put("isEnabled", crossfadeState.isEnabled);
+        crossFadeStateMap.put("duration", crossfadeState.duration);
+        result.success(crossFadeStateMap);
+      }).setErrorCallback(throwable -> {
+        result.error("Get Crossfade State Failed: ", throwable.getMessage(), "");
+      });
+    } catch (Exception e) {
+      result.error("Get Crossfade State Failed: ", e.getMessage(), "");
     }
   }
 }
