@@ -3,16 +3,24 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:spotify_mobile_sdk/spotify_mobile_sdk.dart';
+import 'player_state_page.dart';
 // import 'package:spotify_mobile_sdk/models/crossfade_state_model.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MaterialApp(home: MyApp()));
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return Home();
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   bool _connected = false;
   bool _init = false;
 
@@ -75,159 +83,162 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Spotify SDK Plugin Example APP'),
-        ),
-        body: Column(
-          children: <Widget>[
-            Text("Initialized: $_init", style: TextStyle(fontSize: 25.0)),
-            Divider(),
-            Text("Is Connected: $_connected", style: TextStyle(fontSize: 25.0)),
-            Divider(),
-            RaisedButton(
-              child: Text("Get Crossfade State"),
-              onPressed: () async {
-                await getCrossfadeStateNow();
-              },
-            ),
-            Row(
-              children: <Widget>[
-                Text("Is Enabled: $_crossfadeEnabled", style: TextStyle(fontSize: 25.0)),
-                Text("Duration: $_crossfadeDuration", style: TextStyle(fontSize: 25.0)),
-              ],
-            ),
-            Divider(),
-            RaisedButton(
-              child: Text("Play Lyriske 9mm"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.play(spotifyUri: "spotify:track:5jgxQsZq6njAFQm4V2EUzZ");
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-            Divider(),
-            RaisedButton(
-              child: Text("Queue Congratulations"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.queue(spotifyUri: "spotify:track:3a1lNhkSLSkpJE4MSHpDu9");
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-            RaisedButton(
-              child: Text("Queue SAD!"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.queue(spotifyUri: "spotify:track:3ee8Jmje8o58CHK66QrVC2");
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-            Divider(),
-            RaisedButton(
-              child: Text("Toggle Repeat"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.toggleRepeat();
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-            Divider(),
-            RaisedButton(
-              child: Text("Toggle Shuffle"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.toggleShuffle();
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  child: Text("PAUSE"),
-                  onPressed: () async {
-                    try {
-                      await SpotifyMobileSdk.pause();
-                    } catch (e) {
-                      print("$e");
-                    }
-                  },
-                ),
-                RaisedButton(
-                  child: Text("RESUME"),
-                  onPressed: () async {
-                    try {
-                      await SpotifyMobileSdk.resume();
-                    } catch (e) {
-                      print("$e");
-                    }
-                  },
-                ),
-              ],
-            ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  child: Text("Skip Prev"),
-                  onPressed: () async {
-                    try {
-                      await SpotifyMobileSdk.skipPrev();
-                    } catch (e) {
-                      print("$e");
-                    }
-                  },
-                ),
-                RaisedButton(
-                  child: Text("Skip Next"),
-                  onPressed: () async {
-                    try {
-                      await SpotifyMobileSdk.skipNext();
-                    } catch (e) {
-                      print("$e");
-                    }
-                  },
-                ),
-              ],
-            ),
-            Divider(),
-            RaisedButton(
-              child: Text("Seek to 2.5 minutes"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.seekTo(positionMs: 150000);
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-            Divider(),
-            RaisedButton(
-              child: Text("Seek 10 seconds ahead"),
-              onPressed: () async {
-                try {
-                  await SpotifyMobileSdk.seekToRelativePosition(milliseconds: 10000);
-                } catch (e) {
-                  print("$e");
-                }
-              },
-            ),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Spotify SDK Plugin Example APP'),
+      ),
+      body: Column(
+        children: <Widget>[
+          RaisedButton(
+            child: Text("Player State"),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlayerStatePage())),
+          ),
+          Divider(),
+          Text("Initialized: $_init", style: TextStyle(fontSize: 25.0)),
+          Divider(),
+          Text("Is Connected: $_connected", style: TextStyle(fontSize: 25.0)),
+          Divider(),
+          RaisedButton(
+            child: Text("Get Crossfade State"),
+            onPressed: () async {
+              await getCrossfadeStateNow();
+            },
+          ),
+          Row(
+            children: <Widget>[
+              Text("Is Enabled: $_crossfadeEnabled", style: TextStyle(fontSize: 25.0)),
+              Text("Duration: $_crossfadeDuration", style: TextStyle(fontSize: 25.0)),
+            ],
+          ),
+          Divider(),
+          RaisedButton(
+            child: Text("Play Lyriske 9mm"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.play(spotifyUri: "spotify:track:5jgxQsZq6njAFQm4V2EUzZ");
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
+          Divider(),
+          RaisedButton(
+            child: Text("Queue Congratulations"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.queue(spotifyUri: "spotify:track:3a1lNhkSLSkpJE4MSHpDu9");
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
+          RaisedButton(
+            child: Text("Queue SAD!"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.queue(spotifyUri: "spotify:track:3ee8Jmje8o58CHK66QrVC2");
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
+          Divider(),
+          RaisedButton(
+            child: Text("Toggle Repeat"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.toggleRepeat();
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
+          Divider(),
+          RaisedButton(
+            child: Text("Toggle Shuffle"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.toggleShuffle();
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                child: Text("PAUSE"),
+                onPressed: () async {
+                  try {
+                    await SpotifyMobileSdk.pause();
+                  } catch (e) {
+                    print("$e");
+                  }
+                },
+              ),
+              RaisedButton(
+                child: Text("RESUME"),
+                onPressed: () async {
+                  try {
+                    await SpotifyMobileSdk.resume();
+                  } catch (e) {
+                    print("$e");
+                  }
+                },
+              ),
+            ],
+          ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                child: Text("Skip Prev"),
+                onPressed: () async {
+                  try {
+                    await SpotifyMobileSdk.skipPrev();
+                  } catch (e) {
+                    print("$e");
+                  }
+                },
+              ),
+              RaisedButton(
+                child: Text("Skip Next"),
+                onPressed: () async {
+                  try {
+                    await SpotifyMobileSdk.skipNext();
+                  } catch (e) {
+                    print("$e");
+                  }
+                },
+              ),
+            ],
+          ),
+          Divider(),
+          RaisedButton(
+            child: Text("Seek to 2.5 minutes"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.seekTo(positionMs: 150000);
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
+          Divider(),
+          RaisedButton(
+            child: Text("Seek 10 seconds ahead"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.seekToRelativePosition(milliseconds: 10000);
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
+        ],
       ),
     );
   }
