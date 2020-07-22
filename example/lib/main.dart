@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> getCrossfadeStateNow() async {
-    SpotifyCrossFadeState crossfadeState;
+    SpotifyCrossfadeState crossfadeState;
     bool crossfadeEnabled;
     int crossfadeDuration;
 
