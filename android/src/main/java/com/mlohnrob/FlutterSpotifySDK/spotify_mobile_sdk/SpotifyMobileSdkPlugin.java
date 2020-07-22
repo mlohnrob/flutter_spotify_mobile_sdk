@@ -68,8 +68,11 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       case "getIsConnected":
         result.success(mSpotifyAppRemote.isConnected());
         return;
-      case "getCrossFadeState":
+      case "getCrossfadeState":
         getCrossFadeState(result);
+        return;
+      case "getPlayerState":
+        getPlayerState(result);
         return;
       case "initialize":
         final String initClientId = call.argument("clientId");
@@ -270,6 +273,26 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       });
     } catch (Exception e) {
       result.error("Get Crossfade State Failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void getPlayerState(@NonNull Result result) {
+    HashMap<String, Object> playerStateMap = new HashMap<String, Object>();
+    try {
+      mSpotifyAppRemote.getPlayerApi().getPlayerState().setResultCallback(playerState -> {
+        playerStateMap.put("track", playerState.track);
+        playerStateMap.put("isPaused", playerState.isPaused);
+        playerStateMap.put("playbackOptions", playerState.playbackOptions);
+        playerStateMap.put("playbackPosition", playerState.playbackPosition);
+        playerStateMap.put("playbackRestrictions", playerState.playbackRestrictions);
+        playerStateMap.put("playbackSpeed", playerState.playbackSpeed);
+
+        result.success(playerStateMap);
+      }).setErrorCallback(throwable -> {
+        result.error("Get Player State Failed: ", throwable.getMessage(), "");
+      });
+    } catch (Exception e) {
+      result.error("Get Player State Failed: ", e.getMessage(), "");
     }
   }
 }

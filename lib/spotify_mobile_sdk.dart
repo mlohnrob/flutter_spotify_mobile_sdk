@@ -19,7 +19,7 @@ class SpotifyMobileSdk {
 
   static Future<SpotifyCrossfadeState> get crossfadeState async {
     try {
-      final Map<String, dynamic> crossfadeStateMap = Map<String, dynamic>.from(await _channel.invokeMethod("getCrossFadeState"));
+      final Map<String, dynamic> crossfadeStateMap = Map<String, dynamic>.from(await _channel.invokeMethod("getCrossfadeState"));
       final SpotifyCrossfadeState crossfadeState = SpotifyCrossfadeState.fromMap(crossfadeStateMap);
       return crossfadeState;
     } on PlatformException catch (e) {
