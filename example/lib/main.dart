@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text('Spotify SDK Plugin Example APP'),
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           RaisedButton(
             child: Text("Player State"),
