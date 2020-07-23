@@ -6,6 +6,7 @@ import android.content.Context;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -286,7 +287,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     HashMap<String, Object> playbackOptionsMap = new HashMap<String, Object>();
     HashMap<String, Object> playbackRestrictionsMap = new HashMap<String, Object>();
 
-    List<Map<String, String>> artistsList = new List<Map<String, String>>();
+    List<HashMap<String, String>> artistsList = new ArrayList<HashMap<String, String>>();
     try {
       mSpotifyAppRemote.getPlayerApi().getPlayerState().setResultCallback(playerState -> {
         albumMap.put("name", playerState.track.album.name);
@@ -305,6 +306,11 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         trackMap.put("album", albumMap);
         trackMap.put("artist", artistMap);
         trackMap.put("artists", artistsList);
+        trackMap.put("name", playerState.track.name);
+        trackMap.put("uri", playerState.track.uri);
+        trackMap.put("duration", playerState.track.duration);
+        trackMap.put("isEpisode", playerState.track.isEpisode);
+        trackMap.put("isPodcast", playerState.track.isPodcast);
 
         playbackOptionsMap.put("isShuffling", playerState.playbackOptions.isShuffling);
         playbackOptionsMap.put("repeatMode", playerState.playbackOptions.repeatMode);

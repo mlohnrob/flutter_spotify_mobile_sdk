@@ -151,37 +151,41 @@ class SpotifyPlayerState {
   SpotifyPlayerState(this.track, this.isPaused, this.playbackSpeed, this.playbackPosition, this.playbackOptions, this.playbackRestrictions);
 
   SpotifyPlayerState.fromMap(Map<String, dynamic> map)
-      : track = map["track"],
+      : track = SpotifyTrack.fromMap(map["track"]),
         isPaused = map["isPaused"],
         playbackSpeed = map["playbackSpeed"],
         playbackPosition = map["playbackPosition"],
-        playbackOptions = map["playbackOptions"],
-        playbackRestrictions = map["playbackRestrictions"];
+        playbackOptions = SpotifyPlayerOptions.fromMap(map["playbackOptions"]),
+        playbackRestrictions = SpotifyPlayerRestrictions.fromMap(map["playbackRestrictions"]);
 }
 
 class SpotifyTrack {
-  final String name;
-  final String uri;
-  final SpotifyAlbum album;
-  final SpotifyArtist artist;
-  final List<SpotifyArtist> artists;
-  final int duration;
-  final bool isEpisode;
-  final bool isPodcast;
-  final String imageUri;
+  String name;
+  String uri;
+  SpotifyAlbum album;
+  SpotifyArtist artist;
+  List<SpotifyArtist> artists;
+  int duration;
+  bool isEpisode;
+  bool isPodcast;
+  String imageUri;
 
   SpotifyTrack(this.name, this.uri, this.album, this.artist, this.artists, this.duration, this.imageUri, this.isEpisode, this.isPodcast);
 
-  SpotifyTrack.fromMap(Map<String, dynamic> map)
-      : name = map["name"],
-        uri = map["uri"],
-        album = map["album"],
-        artist = map["artist"],
-        artists = map["artists"],
-        duration = map["duration"],
-        isEpisode = map["isEpisode"],
-        isPodcast = map["isPodcast"],
-        imageUri = map["imageUri"];
+  SpotifyTrack.fromMap(Map<dynamic, dynamic> map) {
+    this.name = map["name"];
+    this.uri = map["uri"];
+    this.album = SpotifyAlbum.fromMap(map["album"]);
+    this.artist = SpotifyArtist.fromMap(map["artist"]);
+    for (int i = 0; i < map["artists"].length; i++) {
+      map["artists"][i] = SpotifyArtist.fromMap(map["artists"][i]);
+    }
+    this.artists = List<SpotifyArtist>.from(map["artists"]);
+    this.duration = map["duration"];
+    this.isEpisode = map["isEpisode"];
+    this.isPodcast = map["isPodcast"];
+    this.imageUri = map["imageUri"];
+  }
 }
 
 class SpotifyAlbum {
@@ -190,7 +194,7 @@ class SpotifyAlbum {
 
   SpotifyAlbum(this.name, this.uri);
 
-  SpotifyAlbum.fromMap(Map<String, String> map)
+  SpotifyAlbum.fromMap(Map<dynamic, dynamic> map)
       : name = map["name"],
         uri = map["uri"];
 }
@@ -201,7 +205,7 @@ class SpotifyArtist {
 
   SpotifyArtist(this.name, this.uri);
 
-  SpotifyArtist.fromMap(Map<String, String> map)
+  SpotifyArtist.fromMap(Map<dynamic, dynamic> map)
       : name = map["name"],
         uri = map["uri"];
 }
@@ -212,7 +216,7 @@ class SpotifyPlayerOptions {
 
   SpotifyPlayerOptions(this.isShuffling, this.repeatMode);
 
-  SpotifyPlayerOptions.fromMap(Map<String, dynamic> map)
+  SpotifyPlayerOptions.fromMap(Map<dynamic, dynamic> map)
       : isShuffling = map["isShuffling"],
         repeatMode = map["repeatMode"];
 }
@@ -227,7 +231,7 @@ class SpotifyPlayerRestrictions {
 
   SpotifyPlayerRestrictions(this.canRepeatContext, this.canRepeatTrack, this.canSeek, this.canSkipNext, this.canSkipPrev, this.canToggleShuffle);
 
-  SpotifyPlayerRestrictions.fromMap(Map<String, bool> map)
+  SpotifyPlayerRestrictions.fromMap(Map<dynamic, dynamic> map)
       : canRepeatContext = map["canRepeatContext"],
         canRepeatTrack = map["canRepeatTrack"],
         canSeek = map["canSeek"],
