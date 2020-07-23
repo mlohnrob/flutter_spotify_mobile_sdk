@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 
 class SpotifyMobileSdk {
   static const MethodChannel _channel = const MethodChannel('spotify_mobile_sdk');
+  static const EventChannel _playerStateChannel = const EventChannel('player_state_subscribtion');
 
   static Future<bool> get isConnected async {
     try {
@@ -37,6 +38,11 @@ class SpotifyMobileSdk {
       print("$e");
       return null;
     }
+  }
+
+  static Stream<SpotifyPlayerState> subscribePlayerState() {
+    Stream<SpotifyPlayerState> playerStateSubscription = _playerStateChannel.receiveBroadcastStream();
+    return playerStateSubscription;
   }
 
   static Future<bool> init({@required String clientId, @required String redirectUri}) async {
