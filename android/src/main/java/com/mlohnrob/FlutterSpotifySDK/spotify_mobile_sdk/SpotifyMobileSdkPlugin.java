@@ -31,6 +31,7 @@ import com.spotify.protocol.types.Artist;
 public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
   private Context appContext;
   private MethodChannel methodChannel;
+  private EventChannel playerStateChannel;
 
   private SpotifyAppRemote mSpotifyAppRemote;
 
@@ -48,6 +49,8 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     this.appContext = appContext;
     methodChannel = new MethodChannel(messenger, "spotify_mobile_sdk");
     methodChannel.setMethodCallHandler(this);
+
+    playerStateChannel = new EventChannel(messenger, "player_state_subscription");
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It
@@ -140,6 +143,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
           @Override
           public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
             mSpotifyAppRemote = spotifyAppRemote;
+            playerStateChannel.setStreamHandler(this);
             result.success(true);
           }
 
