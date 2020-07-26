@@ -7,3 +7,4 @@
 build/
 
 pubspeck.lock
+android/.settings/org.eclipse.buildship.core.prefs
