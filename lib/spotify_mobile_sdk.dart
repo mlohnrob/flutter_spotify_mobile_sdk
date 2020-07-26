@@ -9,6 +9,8 @@ class SpotifyMobileSdk {
   static const MethodChannel _channel = const MethodChannel('spotify_mobile_sdk');
   static const EventChannel _playerStateChannel = const EventChannel('player_state_subscription');
 
+  Stream<SpotifyPlayerState> _playerStateEvents;
+
   static Future<bool> get isConnected async {
     try {
       return await _channel.invokeMethod("getIsConnected");
@@ -40,12 +42,11 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Stream<SpotifyPlayerState> get playerStateEvents {
-    Stream<SpotifyPlayerState> playerStateEvents = _playerStateChannel.receiveBroadcastStream().map((dynamic event) {
-      Map<String, dynamic> playerStateMap = Map<String, dynamic>.from(event);
-      return SpotifyPlayerState.fromMap(playerStateMap);
-    });
-    return playerStateEvents;
+  Stream<SpotifyPlayerState> get playerStateEvents {
+    if (_playerStateEvents == null) {
+      _playerStateEvents = _playerStateChannel.receiveBroadcastStream().map((dynamic event) => SpotifyPlayerState.fromMap(Map<String, dynamic>.from(event)));
+    }
+    return _playerStateEvents;
   }
 
   static Future<bool> init({@required String clientId, @required String redirectUri}) async {
