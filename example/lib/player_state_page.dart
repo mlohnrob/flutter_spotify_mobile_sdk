@@ -7,24 +7,27 @@ class PlayerStatePage extends StatefulWidget {
 }
 
 class _PlayerStatePageState extends State<PlayerStatePage> {
+  SpotifyMobileSdk _spotsdk = SpotifyMobileSdk();
+
   SpotifyPlayerState _playerState;
-  Future<void> _future;
+  Stream _stream;
 
   @override
   void initState() {
     super.initState();
-    _future = getPlayerStateNow();
+    // _stream = getPlayerStateNow();
+    _stream = _spotsdk.playerStateEvents;
   }
 
-  Future<void> getPlayerStateNow() async {
-    _playerState = await SpotifyMobileSdk.playerState;
-    // print(_playerState as String);
-  }
+  // Stream getPlayerStateNow() {
+  //   return SpotifyMobileSdk.playerStateEvents;
+  //   // print(_playerState as String);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _future,
+    return StreamBuilder(
+        stream: _stream,
         builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(title: Text("Player State")),

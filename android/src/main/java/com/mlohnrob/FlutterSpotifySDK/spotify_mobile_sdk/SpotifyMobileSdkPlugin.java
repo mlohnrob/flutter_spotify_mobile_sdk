@@ -13,6 +13,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.EventChannel.EventSink;
+import io.flutter.plugin.common.EventChannel.StreamHandler;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
@@ -30,7 +31,7 @@ import com.spotify.protocol.types.Track;
 import com.spotify.protocol.types.Artist;
 
 /** SpotifyMobileSdkPlugin */
-public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
+public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler, StreamHandler {
   private Context appContext;
   private MethodChannel methodChannel;
   private EventChannel playerStateChannel;
@@ -176,6 +177,10 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     } catch (Exception e) {
       events.error("Get Player State Events Failed", e.getMessage(), "");
     }
+  }
+
+  @Override
+  public void onCancel(Object arguments) {
   }
 
   private void initialize(@NonNull final String clientId, @NonNull final String redirectUri,
