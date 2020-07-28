@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:spotify_mobile_sdk/spotify_mobile_sdk.dart';
+import 'package:spotify_mobile_sdk_example/get_image_page.dart';
 import 'package:spotify_mobile_sdk_example/player_context_page.dart';
 import 'player_state_page.dart';
 // import 'package:spotify_mobile_sdk/models/crossfade_state_model.dart';
@@ -99,6 +100,10 @@ class _HomeState extends State<Home> {
           RaisedButton(
             child: Text("Player Context"),
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlayerContextPage())),
+          ),
+          RaisedButton(
+            child: Text("Get Image"),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => GetImagePage())),
           ),
           Divider(),
           Text("Initialized: $_init", style: TextStyle(fontSize: 25.0)),

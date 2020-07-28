@@ -36,7 +36,7 @@ import com.spotify.protocol.client.CallResult;
 import com.spotify.protocol.types.Track;
 import com.spotify.protocol.types.Artist;
 import com.spotify.protocol.types.ImageUri;
-import com.spotify.protocol.types.Image.Dimension;
+import com.spotify.protocol.types.Image;
 
 /** SpotifyMobileSdkPlugin */
 public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
@@ -85,8 +85,27 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         getPlayerState(result);
         return;
       case "getImage":
-        getImage(new ImageUri(call.argument["imageUri"]),
-            Dimension.values().first(it.getValue() == call.argument["dimension"]), result);
+        Image.Dimension dimension = Image.Dimension.X_SMALL;
+        final Image.Dimension[] values = Image.Dimension.values();
+        for (int i = 0; i < values.length; i++) {
+          if (values[i] == call.argument("dimension")) {
+            if (i == 0) {
+              dimension = Image.Dimension.LARGE;
+            } else if (i == 1) {
+              dimension = Image.Dimension.MEDIUM;
+            } else if (i == 2) {
+              dimension = Image.Dimension.SMALL;
+            } else if (i == 3) {
+              dimension = Image.Dimension.THUMBNAIL;
+            } else if (i == 4) {
+              dimension = Image.Dimension.X_SMALL;
+            } else {
+              dimension = Image.Dimension.MEDIUM;
+            }
+            break;
+          }
+        }
+        getImage(new ImageUri(call.argument("imageUri")), dimension, result);
         return;
       case "initialize":
         final String initClientId = call.argument("clientId");
@@ -349,9 +368,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-  private void getImage(@NonNull ImageUri imageUri, @NonNull Dimension dimension, @NonNull Result result) {
+  private void getImage(@NonNull ImageUri imageUri, @NonNull Image.Dimension dimension, @NonNull Result result) {
     try {
-      mSpotifyAppRemote.getImageApi().getImage(imageUri, dimension).setResultCallback(bitmap -> {
+      mSpotifyAppRemote.getImagesApi().getImage(imageUri, dimension).setResultCallback(bitmap -> {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         result.success(stream.toByteArray());
