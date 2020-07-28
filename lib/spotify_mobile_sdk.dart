@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -151,7 +152,14 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<Uint8List> getImage(@required )
+  static Future<Uint8List> getImage({@required SpotifyImageUri imageUri, ImageDimension dimension = ImageDimension.MEDIUM}) async {
+    try {
+      return await _channel.invokeMethod("getImage", {"imageUri": imageUri, "dimension": dimension.value});
+    } on PlatformException catch (e) {
+      print("$e");
+      return null;
+    }
+  }
 }
 
 class SpotifyCrossfadeState {
@@ -285,8 +293,7 @@ class SpotifyImageUri {
 
   SpotifyImageUri(this.raw);
 
-  SpotifyImageUri.fromMap(Map<String, String> map)
-      : raw = map["raw"];
+  SpotifyImageUri.fromMap(Map<String, String> map) : raw = map["raw"];
 }
 
 enum ImageDimension { LARGE, MEDIUM, SMALL, X_SMALL, THUMBNAIL }
