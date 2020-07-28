@@ -1,5 +1,7 @@
 package com.mlohnrob.FlutterSpotifySDK.spotify_mobile_sdk;
 
+import com.mlohnrob.FlutterSpotifySDK.spotify_mobile_sdk.stream_handlers.*;
+
 import androidx.annotation.NonNull;
 
 import android.content.Context;
@@ -31,10 +33,11 @@ import com.spotify.protocol.types.Track;
 import com.spotify.protocol.types.Artist;
 
 /** SpotifyMobileSdkPlugin */
-public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler, StreamHandler {
+public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
   private Context appContext;
   private MethodChannel methodChannel;
   private EventChannel playerStateChannel;
+  private EventChannel playerContextChannel;
 
   private SpotifyAppRemote mSpotifyAppRemote;
 
@@ -54,8 +57,11 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler,
     methodChannel = new MethodChannel(messenger, "spotify_mobile_sdk");
     methodChannel.setMethodCallHandler(this);
 
-    playerStateChannel = new EventChannel(messenger, "player_state_subscription");
-    playerStateChannel.setStreamHandler(this);
+    playerStateChannel = new EventChannel(messenger, "player_state_events");
+    playerStateChannel.setStreamHandler(new PlayerStateHandler(mSpotifyAppRemote.getPlayerApi()));
+
+    playerContextChannel = new EventChannel(messenger, "player_context_events");
+    playerContextChannel.setStreamHandler(new PlayerContextHandler(mSpotifyAppRemote.getPlayerApi()));
 
   }
 
@@ -119,69 +125,6 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler,
         result.notImplemented();
         return;
     }
-  }
-
-  @Override
-  public void onListen(Object arguments, EventSink events) {
-    HashMap<String, Object> playerStateMap = new HashMap<String, Object>();
-    HashMap<String, Object> trackMap = new HashMap<String, Object>();
-    HashMap<String, Object> albumMap = new HashMap<String, Object>();
-    HashMap<String, Object> artistMap = new HashMap<String, Object>();
-    HashMap<String, Object> playbackOptionsMap = new HashMap<String, Object>();
-    HashMap<String, Object> playbackRestrictionsMap = new HashMap<String, Object>();
-
-    List<HashMap<String, String>> artistsList = new ArrayList<HashMap<String, String>>();
-    try {
-      mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(playerState -> {
-        albumMap.put("name", playerState.track.album.name);
-        albumMap.put("uri", playerState.track.album.uri);
-
-        artistMap.put("name", playerState.track.artist.name);
-        artistMap.put("uri", playerState.track.artist.uri);
-
-        for (Artist artist : playerState.track.artists) {
-          HashMap<String, String> thisArtistMap = new HashMap<String, String>();
-          thisArtistMap.put("name", artist.name);
-          thisArtistMap.put("uri", artist.uri);
-          artistsList.add(thisArtistMap);
-        }
-
-        trackMap.put("album", albumMap);
-        trackMap.put("artist", artistMap);
-        trackMap.put("artists", artistsList);
-        trackMap.put("name", playerState.track.name);
-        trackMap.put("uri", playerState.track.uri);
-        trackMap.put("duration", playerState.track.duration);
-        trackMap.put("isEpisode", playerState.track.isEpisode);
-        trackMap.put("isPodcast", playerState.track.isPodcast);
-
-        playbackOptionsMap.put("isShuffling", playerState.playbackOptions.isShuffling);
-        playbackOptionsMap.put("repeatMode", playerState.playbackOptions.repeatMode);
-
-        playbackRestrictionsMap.put("canRepeatContext", playerState.playbackRestrictions.canRepeatContext);
-        playbackRestrictionsMap.put("canRepeatTrack", playerState.playbackRestrictions.canRepeatTrack);
-        playbackRestrictionsMap.put("canSkipNext", playerState.playbackRestrictions.canSkipNext);
-        playbackRestrictionsMap.put("canSkipPrev", playerState.playbackRestrictions.canSkipPrev);
-        playbackRestrictionsMap.put("canToggleShuffle", playerState.playbackRestrictions.canToggleShuffle);
-        playbackRestrictionsMap.put("canSeek", playerState.playbackRestrictions.canSeek);
-
-        playerStateMap.put("track", trackMap);
-        playerStateMap.put("isPaused", playerState.isPaused);
-        playerStateMap.put("playbackOptions", playbackOptionsMap);
-        playerStateMap.put("playbackPosition", playerState.playbackPosition);
-        playerStateMap.put("playbackRestrictions", playbackRestrictionsMap);
-        playerStateMap.put("playbackSpeed", playerState.playbackSpeed);
-
-        events.success(playerStateMap);
-      }).setErrorCallback(throwable -> events.error("Get Player State Events Failed", throwable.getMessage(), ""));
-    } catch (Exception e) {
-      events.error("Get Player State Events Failed", e.getMessage(), "");
-    }
-  }
-
-  @Override
-  public void onCancel(Object arguments) {
-    // TODO: Write onCancel process
   }
 
   private void initialize(@NonNull final String clientId, @NonNull final String redirectUri,
