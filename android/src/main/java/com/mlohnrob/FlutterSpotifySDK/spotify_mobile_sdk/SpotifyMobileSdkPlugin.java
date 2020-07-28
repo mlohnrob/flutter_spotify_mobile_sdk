@@ -58,11 +58,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     methodChannel.setMethodCallHandler(this);
 
     playerStateChannel = new EventChannel(messenger, "player_state_events");
-    playerStateChannel.setStreamHandler(new PlayerStateHandler(mSpotifyAppRemote.getPlayerApi()));
-
     playerContextChannel = new EventChannel(messenger, "player_context_events");
-    playerContextChannel.setStreamHandler(new PlayerContextHandler(mSpotifyAppRemote.getPlayerApi()));
-
   }
 
   @Override
@@ -141,6 +137,10 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
           @Override
           public void onConnected(final SpotifyAppRemote spotifyAppRemote) {
             mSpotifyAppRemote = spotifyAppRemote;
+
+            playerStateChannel.setStreamHandler(new PlayerStateHandler(mSpotifyAppRemote.getPlayerApi()));
+            playerContextChannel.setStreamHandler(new PlayerContextHandler(mSpotifyAppRemote.getPlayerApi()));
+
             result.success(true);
           }
 
