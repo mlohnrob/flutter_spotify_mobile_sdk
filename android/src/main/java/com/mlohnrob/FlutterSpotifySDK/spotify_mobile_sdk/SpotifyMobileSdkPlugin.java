@@ -6,9 +6,13 @@ import androidx.annotation.NonNull;
 
 import android.content.Context;
 
+import android.graphics.Bitmap;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+
+import java.io.ByteArrayOutputStream;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -31,6 +35,8 @@ import com.spotify.protocol.types.CrossfadeState;
 import com.spotify.protocol.client.CallResult;
 import com.spotify.protocol.types.Track;
 import com.spotify.protocol.types.Artist;
+import com.spotify.protocol.types.ImageUri;
+import com.spotify.protocol.types.Image;
 
 /** SpotifyMobileSdkPlugin */
 public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
@@ -77,6 +83,22 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         return;
       case "getPlayerState":
         getPlayerState(result);
+        return;
+      case "getImage":
+        Image.Dimension dimension = Image.Dimension.MEDIUM;
+        int argDimension = call.argument("dimension");
+        if (argDimension == Image.Dimension.LARGE.getValue()) {
+          dimension = Image.Dimension.LARGE;
+        } else if (argDimension == Image.Dimension.MEDIUM.getValue()) {
+          dimension = Image.Dimension.MEDIUM;
+        } else if (argDimension == Image.Dimension.SMALL.getValue()) {
+          dimension = Image.Dimension.SMALL;
+        } else if (argDimension == Image.Dimension.X_SMALL.getValue()) {
+          dimension = Image.Dimension.X_SMALL;
+        } else if (argDimension == Image.Dimension.THUMBNAIL.getValue()) {
+          dimension = Image.Dimension.THUMBNAIL;
+        }
+        getImage(new ImageUri(call.argument("imageUri")), dimension, result);
         return;
       case "initialize":
         final String initClientId = call.argument("clientId");
@@ -336,6 +358,20 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       });
     } catch (Exception e) {
       result.error("Get Player State Failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void getImage(@NonNull ImageUri imageUri, @NonNull Image.Dimension dimension, @NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getImagesApi().getImage(imageUri, dimension).setResultCallback(bitmap -> {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        result.success(stream.toByteArray());
+      }).setErrorCallback(throwable -> {
+        result.error("Get Image Failed: ", throwable.getMessage(), "");
+      });
+    } catch (Exception e) {
+      result.error("Get Image Failed: ", e.getMessage(), "");
     }
   }
 }

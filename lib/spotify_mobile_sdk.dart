@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -150,6 +151,15 @@ class SpotifyMobileSdk {
       print("$e");
     }
   }
+
+  Future<Uint8List> getImage({@required String imageUri, SpotifyImageDimension dimension = SpotifyImageDimension.MEDIUM}) async {
+    try {
+      return await _channel.invokeMethod("getImage", {"imageUri": imageUri, "dimension": dimension.value});
+    } on PlatformException catch (e) {
+      print("$e");
+      return null;
+    }
+  }
 }
 
 class SpotifyCrossfadeState {
@@ -276,4 +286,18 @@ class SpotifyPlayerRestrictions {
         canSkipNext = map["canSkipNext"],
         canSkipPrev = map["canSkipPrev"],
         canToggleShuffle = map["canToggleShuffle"];
+}
+
+enum SpotifyImageDimension { LARGE, MEDIUM, SMALL, X_SMALL, THUMBNAIL }
+
+extension on SpotifyImageDimension {
+  static const Map<SpotifyImageDimension, int> dimensionValues = <SpotifyImageDimension, int>{
+    SpotifyImageDimension.LARGE: 720,
+    SpotifyImageDimension.MEDIUM: 480,
+    SpotifyImageDimension.SMALL: 360,
+    SpotifyImageDimension.X_SMALL: 240,
+    SpotifyImageDimension.THUMBNAIL: 144,
+  };
+
+  int get value => dimensionValues[this];
 }
