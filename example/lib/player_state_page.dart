@@ -9,7 +9,7 @@ class PlayerStatePage extends StatefulWidget {
 class _PlayerStatePageState extends State<PlayerStatePage> {
   SpotifyMobileSdk _spotsdk = SpotifyMobileSdk();
 
-  SpotifyPlayerState _playerState;
+  // SpotifyPlayerState _playerState;
   Stream _stream;
 
   @override
@@ -21,7 +21,7 @@ class _PlayerStatePageState extends State<PlayerStatePage> {
 
   // Stream getPlayerStateNow() {
   //   return SpotifyMobileSdk.playerStateEvents;
-  //   // print(_playerState as String);
+  //   // print(snapshot.data as String);
   // }
 
   @override
@@ -33,30 +33,30 @@ class _PlayerStatePageState extends State<PlayerStatePage> {
             appBar: AppBar(title: Text("Player State")),
             body: Column(
               children: <Widget>[
-                Text("Track: ${_playerState.track.name} by ${_playerState.track.artist.name} from ${_playerState.track.album.name}"),
+                Text("Track: ${snapshot.data.track.name} by ${snapshot.data.track.artist.name} from ${snapshot.data.track.album.name}"),
                 Text("Artists: "),
                 ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _playerState.track.artists.length,
+                    itemCount: snapshot.data.track.artists.length,
                     itemBuilder: (BuildContext cntxt, int index) {
-                      return Text("Artist: ${_playerState.track.artists[index].name}");
+                      return Text("Artist: ${snapshot.data.track.artists[index].name}");
                     }),
-                // for (SpotifyArtist i in _playerState.track.artists) {Text("Artist: ${i.name}")},
-                Text("Uri: ${_playerState.track.uri}, Duration: ${_playerState.track.duration}, isEpisode: ${_playerState.track.isEpisode}, isPodcast: ${_playerState.track.isPodcast}"),
+                // for (SpotifyArtist i in snapshot.data.track.artists) {Text("Artist: ${i.name}")},
+                Text("Uri: ${snapshot.data.track.uri}, Duration: ${snapshot.data.track.duration}, isEpisode: ${snapshot.data.track.isEpisode}, isPodcast: ${snapshot.data.track.isPodcast}"),
                 Divider(),
-                Text("isPaused: ${_playerState.isPaused}"),
-                Text("Playback Speed: ${_playerState.playbackSpeed}"),
-                Text("Playback Position: ${_playerState.playbackPosition}"),
+                Text("isPaused: ${snapshot.data.isPaused}"),
+                Text("Playback Speed: ${snapshot.data.playbackSpeed}"),
+                Text("Playback Position: ${snapshot.data.playbackPosition}"),
                 Divider(),
-                Text("Playback Options:\nisShuffling: ${_playerState.playbackOptions.isShuffling}, Repeat Mode: ${_playerState.playbackOptions.repeatMode}"),
+                Text("Playback Options:\nisShuffling: ${snapshot.data.playbackOptions.isShuffling}, Repeat Mode: ${snapshot.data.playbackOptions.repeatMode}"),
                 Divider(),
                 Text("Playback Restrictions:"),
-                Text("canRepeatContext: ${_playerState.playbackRestrictions.canRepeatContext}"),
-                Text("canRepeatTrack: ${_playerState.playbackRestrictions.canRepeatTrack}"),
-                Text("canSeek: ${_playerState.playbackRestrictions.canSeek}"),
-                Text("canSkipNext: ${_playerState.playbackRestrictions.canSkipNext}"),
-                Text("canSkipPrev: ${_playerState.playbackRestrictions.canSkipPrev}"),
-                Text("canToggleShuffle: ${_playerState.playbackRestrictions.canToggleShuffle}"),
+                Text("canRepeatContext: ${snapshot.data.playbackRestrictions.canRepeatContext}"),
+                Text("canRepeatTrack: ${snapshot.data.playbackRestrictions.canRepeatTrack}"),
+                Text("canSeek: ${snapshot.data.playbackRestrictions.canSeek}"),
+                Text("canSkipNext: ${snapshot.data.playbackRestrictions.canSkipNext}"),
+                Text("canSkipPrev: ${snapshot.data.playbackRestrictions.canSkipPrev}"),
+                Text("canToggleShuffle: ${snapshot.data.playbackRestrictions.canToggleShuffle}"),
               ],
             ),
           );
