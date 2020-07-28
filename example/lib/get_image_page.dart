@@ -15,7 +15,7 @@ class _GetImagePageState extends State<GetImagePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _spotsdk.getImage(imageUri: "spotify:image:3269971d34d3f17f16efc2dfa95e302cc961a36c", dimension: SpotifyImageDimension.SMALL),
+      future: _spotsdk.getImage(imageUri: "spotify:image:3269971d34d3f17f16efc2dfa95e302cc961a36c", dimension: SpotifyImageDimension.LARGE),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Scaffold(
           appBar: AppBar(title: Text("Get Image")),

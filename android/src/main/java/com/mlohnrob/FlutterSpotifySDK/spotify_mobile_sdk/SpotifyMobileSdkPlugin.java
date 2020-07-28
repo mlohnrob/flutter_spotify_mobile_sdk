@@ -85,25 +85,18 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         getPlayerState(result);
         return;
       case "getImage":
-        Image.Dimension dimension = Image.Dimension.X_SMALL;
-        final Image.Dimension[] values = Image.Dimension.values();
-        for (int i = 0; i < values.length; i++) {
-          if (values[i] == call.argument("dimension")) {
-            if (i == 0) {
-              dimension = Image.Dimension.LARGE;
-            } else if (i == 1) {
-              dimension = Image.Dimension.MEDIUM;
-            } else if (i == 2) {
-              dimension = Image.Dimension.SMALL;
-            } else if (i == 3) {
-              dimension = Image.Dimension.THUMBNAIL;
-            } else if (i == 4) {
-              dimension = Image.Dimension.X_SMALL;
-            } else {
-              dimension = Image.Dimension.MEDIUM;
-            }
-            break;
-          }
+        Image.Dimension dimension = Image.Dimension.MEDIUM;
+        int argDimension = call.argument("dimension");
+        if (argDimension == Image.Dimension.LARGE.getValue()) {
+          dimension = Image.Dimension.LARGE;
+        } else if (argDimension == Image.Dimension.MEDIUM.getValue()) {
+          dimension = Image.Dimension.MEDIUM;
+        } else if (argDimension == Image.Dimension.SMALL.getValue()) {
+          dimension = Image.Dimension.SMALL;
+        } else if (argDimension == Image.Dimension.X_SMALL.getValue()) {
+          dimension = Image.Dimension.X_SMALL;
+        } else if (argDimension == Image.Dimension.THUMBNAIL.getValue()) {
+          dimension = Image.Dimension.THUMBNAIL;
         }
         getImage(new ImageUri(call.argument("imageUri")), dimension, result);
         return;
