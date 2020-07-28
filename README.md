@@ -49,9 +49,9 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 
 #### Connect Api
 
-| Function                   | Description                                 | Android               | iOS                   |
-| -------------------------- | ------------------------------------------- | --------------------- | --------------------- |
-| connectSwitchToLocalDevice | Switch to play music on this (local) device | :construction_worker: | :construction_worker: |
+| Function            | Description                                 | Android            | iOS                   |
+| ------------------- | ------------------------------------------- | ------------------ | --------------------- |
+| switchToLocalDevice | Switch to play music on this (local) device | :heavy_check_mark: | :construction_worker: |
 
 #### Content Api
 
