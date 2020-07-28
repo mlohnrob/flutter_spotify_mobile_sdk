@@ -32,9 +32,9 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 
 #### Images Api
 
-| Function | Description                             | Android               | iOS                   |
-| -------- | --------------------------------------- | --------------------- | --------------------- |
-| getImage | Get the image from the given spotifyUri | :construction_worker: | :construction_worker: |
+| Function | Description                             | Android            | iOS                   |
+| -------- | --------------------------------------- | ------------------ | --------------------- |
+| getImage | Get the image from the given spotifyUri | :heavy_check_mark: | :construction_worker: |
 
 #### User Api
 
