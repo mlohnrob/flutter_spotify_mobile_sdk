@@ -21,6 +21,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // SpotifyMobileSdk _spotsdk = SpotifyMobileSdk();
+
   bool _connected = false;
   bool _init = false;
 

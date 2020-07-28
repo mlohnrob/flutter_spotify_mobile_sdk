@@ -7,6 +7,9 @@ import 'package:flutter/foundation.dart';
 
 class SpotifyMobileSdk {
   static const MethodChannel _channel = const MethodChannel('spotify_mobile_sdk');
+  static const EventChannel _playerStateChannel = const EventChannel('player_state_subscription');
+
+  // Stream<SpotifyPlayerState> _playerStateEvents;
 
   static Future<bool> get isConnected async {
     try {
@@ -33,6 +36,16 @@ class SpotifyMobileSdk {
       final Map<String, dynamic> playerStateMap = Map<String, dynamic>.from(await _channel.invokeMethod("getPlayerState"));
       final SpotifyPlayerState playerState = SpotifyPlayerState.fromMap(playerStateMap);
       return playerState;
+    } on PlatformException catch (e) {
+      print("$e");
+      return null;
+    }
+  }
+
+  Stream<SpotifyPlayerState> get playerStateEvents {
+    // TODO: Make [artists] list not get infinitely big
+    try {
+      return _playerStateChannel.receiveBroadcastStream().asyncMap((dynamic event) => SpotifyPlayerState.fromMap(Map<String, dynamic>.from(event)));
     } on PlatformException catch (e) {
       print("$e");
       return null;

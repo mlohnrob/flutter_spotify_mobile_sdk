@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.EventChannel;
+import io.flutter.plugin.common.EventChannel.EventSink;
+import io.flutter.plugin.common.EventChannel.StreamHandler;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
@@ -28,9 +31,10 @@ import com.spotify.protocol.types.Track;
 import com.spotify.protocol.types.Artist;
 
 /** SpotifyMobileSdkPlugin */
-public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
+public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler, StreamHandler {
   private Context appContext;
   private MethodChannel methodChannel;
+  private EventChannel playerStateChannel;
 
   private SpotifyAppRemote mSpotifyAppRemote;
 
@@ -46,24 +50,19 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
 
   private void onAttachedToEngine(Context appContext, BinaryMessenger messenger) {
     this.appContext = appContext;
+
     methodChannel = new MethodChannel(messenger, "spotify_mobile_sdk");
     methodChannel.setMethodCallHandler(this);
+
+    playerStateChannel = new EventChannel(messenger, "player_state_subscription");
+    playerStateChannel.setStreamHandler(this);
+
   }
 
-  // This static function is optional and equivalent to onAttachedToEngine. It
-  // supports the old
-  // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-  // plugin registration via this function while apps migrate to use the new
-  // Android APIs
-  // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-  //
-  // It is encouraged to share logic between onAttachedToEngine and registerWith
-  // to keep
-  // them functionally equivalent. Only one of onAttachedToEngine or registerWith
-  // will be called
-  // depending on the user's project. onAttachedToEngine or registerWith must both
-  // be defined
-  // in the same class.
+  @Override
+  public void onDetachedFromEngine(@NonNull final FlutterPluginBinding binding) {
+    // TODO: write detach process
+  }
 
   @Override
   public void onMethodCall(@NonNull final MethodCall call, @NonNull final Result result) {
@@ -123,7 +122,66 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
   }
 
   @Override
-  public void onDetachedFromEngine(@NonNull final FlutterPluginBinding binding) {
+  public void onListen(Object arguments, EventSink events) {
+    HashMap<String, Object> playerStateMap = new HashMap<String, Object>();
+    HashMap<String, Object> trackMap = new HashMap<String, Object>();
+    HashMap<String, Object> albumMap = new HashMap<String, Object>();
+    HashMap<String, Object> artistMap = new HashMap<String, Object>();
+    HashMap<String, Object> playbackOptionsMap = new HashMap<String, Object>();
+    HashMap<String, Object> playbackRestrictionsMap = new HashMap<String, Object>();
+
+    List<HashMap<String, String>> artistsList = new ArrayList<HashMap<String, String>>();
+    try {
+      mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(playerState -> {
+        albumMap.put("name", playerState.track.album.name);
+        albumMap.put("uri", playerState.track.album.uri);
+
+        artistMap.put("name", playerState.track.artist.name);
+        artistMap.put("uri", playerState.track.artist.uri);
+
+        for (Artist artist : playerState.track.artists) {
+          HashMap<String, String> thisArtistMap = new HashMap<String, String>();
+          thisArtistMap.put("name", artist.name);
+          thisArtistMap.put("uri", artist.uri);
+          artistsList.add(thisArtistMap);
+        }
+
+        trackMap.put("album", albumMap);
+        trackMap.put("artist", artistMap);
+        trackMap.put("artists", artistsList);
+        trackMap.put("name", playerState.track.name);
+        trackMap.put("uri", playerState.track.uri);
+        trackMap.put("duration", playerState.track.duration);
+        trackMap.put("isEpisode", playerState.track.isEpisode);
+        trackMap.put("isPodcast", playerState.track.isPodcast);
+
+        playbackOptionsMap.put("isShuffling", playerState.playbackOptions.isShuffling);
+        playbackOptionsMap.put("repeatMode", playerState.playbackOptions.repeatMode);
+
+        playbackRestrictionsMap.put("canRepeatContext", playerState.playbackRestrictions.canRepeatContext);
+        playbackRestrictionsMap.put("canRepeatTrack", playerState.playbackRestrictions.canRepeatTrack);
+        playbackRestrictionsMap.put("canSkipNext", playerState.playbackRestrictions.canSkipNext);
+        playbackRestrictionsMap.put("canSkipPrev", playerState.playbackRestrictions.canSkipPrev);
+        playbackRestrictionsMap.put("canToggleShuffle", playerState.playbackRestrictions.canToggleShuffle);
+        playbackRestrictionsMap.put("canSeek", playerState.playbackRestrictions.canSeek);
+
+        playerStateMap.put("track", trackMap);
+        playerStateMap.put("isPaused", playerState.isPaused);
+        playerStateMap.put("playbackOptions", playbackOptionsMap);
+        playerStateMap.put("playbackPosition", playerState.playbackPosition);
+        playerStateMap.put("playbackRestrictions", playbackRestrictionsMap);
+        playerStateMap.put("playbackSpeed", playerState.playbackSpeed);
+
+        events.success(playerStateMap);
+      }).setErrorCallback(throwable -> events.error("Get Player State Events Failed", throwable.getMessage(), ""));
+    } catch (Exception e) {
+      events.error("Get Player State Events Failed", e.getMessage(), "");
+    }
+  }
+
+  @Override
+  public void onCancel(Object arguments) {
+    // TODO: Write onCancel process
   }
 
   private void initialize(@NonNull final String clientId, @NonNull final String redirectUri,
