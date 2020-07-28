@@ -15,8 +15,8 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 
 | Function               | Description                                                      | Android            | iOS                   |
 | ---------------------- | ---------------------------------------------------------------- | ------------------ | --------------------- |
-| getCrossfadeState      | Gets the current crossfade state                                 | :heavy_check_mark: | :construction_worker: |
-| getPlayerState         | Gets the current player state                                    | :heavy_check_mark: | :construction_worker: |
+| crossfadeState         | Gets the current crossfade state (this is a getter)              | :heavy_check_mark: | :construction_worker: |
+| playerState            | Gets the current player state (this is a getter)                 | :heavy_check_mark: | :construction_worker: |
 | pause                  | Pauses the current track                                         | :heavy_check_mark: | :construction_worker: |
 | play                   | Plays the given spotifyUri                                       | :heavy_check_mark: | :construction_worker: |
 | queue                  | Queues given spotifyUri                                          | :heavy_check_mark: | :construction_worker: |
@@ -25,8 +25,8 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 | skipPrevious           | Skips to previous track                                          | :heavy_check_mark: | :construction_worker: |
 | seekTo                 | Seeks the current track to the given position in milliseconds    | :heavy_check_mark: | :construction_worker: |
 | seekToRelativePosition | Adds to the current position of the track the given milliseconds | :heavy_check_mark: | :construction_worker: |
-| playerContextEvents    | Subscribes to the current player context                         | :heavy_check_mark: | :construction_worker: |
-| playerStateEvents      | Subscribes to the current player state                           | :heavy_check_mark: | :construction_worker: |
+| playerContextEvents    | Subscribes to the current player context (this returns a stream) | :heavy_check_mark: | :construction_worker: |
+| playerStateEvents      | Subscribes to the current player state (this returns a stream)   | :heavy_check_mark: | :construction_worker: |
 | toggleShuffle          | Cycles through the shuffle modes                                 | :heavy_check_mark: | :construction_worker: |
 | toggleRepeat           | Cycles through the repeat modes                                  | :heavy_check_mark: | :construction_worker: |
 
