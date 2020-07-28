@@ -7,7 +7,8 @@ import 'package:flutter/foundation.dart';
 
 class SpotifyMobileSdk {
   static const MethodChannel _channel = const MethodChannel('spotify_mobile_sdk');
-  static const EventChannel _playerStateChannel = const EventChannel('player_state_subscription');
+  static const EventChannel _playerStateChannel = const EventChannel('player_state_events');
+  static const EventChannel _playerContextChannel = const EventChannel('player_context_events');
 
   // Stream<SpotifyPlayerState> _playerStateEvents;
 
@@ -45,7 +46,16 @@ class SpotifyMobileSdk {
   Stream<SpotifyPlayerState> get playerStateEvents {
     // TODO: Make [artists] list not get infinitely big
     try {
-      return _playerStateChannel.receiveBroadcastStream().asyncMap((dynamic event) => SpotifyPlayerState.fromMap(Map<String, dynamic>.from(event)));
+      return _playerStateChannel.receiveBroadcastStream().asyncMap((dynamic playerStateHashMap) => SpotifyPlayerState.fromMap(Map<String, dynamic>.from(playerStateHashMap)));
+    } on PlatformException catch (e) {
+      print("$e");
+      return null;
+    }
+  }
+
+  Stream<SpotifyPlayerContext> get playerContextEvents {
+    try {
+      return _playerContextChannel.receiveBroadcastStream().asyncMap((dynamic playerContextHashMap) => SpotifyPlayerContext.fromMap(Map<String, String>.from(playerContextHashMap)));
     } on PlatformException catch (e) {
       print("$e");
       return null;
@@ -170,6 +180,21 @@ class SpotifyPlayerState {
         playbackPosition = map["playbackPosition"],
         playbackOptions = SpotifyPlayerOptions.fromMap(map["playbackOptions"]),
         playbackRestrictions = SpotifyPlayerRestrictions.fromMap(map["playbackRestrictions"]);
+}
+
+class SpotifyPlayerContext {
+  final String title;
+  final String subtitle;
+  final String type;
+  final String uri;
+
+  SpotifyPlayerContext(this.title, this.subtitle, this.type, this.uri);
+
+  SpotifyPlayerContext.fromMap(Map<String, String> map)
+      : title = map["title"],
+        subtitle = map["subtitle"],
+        type = map["type"],
+        uri = map["uri"];
 }
 
 class SpotifyTrack {
