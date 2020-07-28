@@ -6,10 +6,10 @@ A Flutter plugin made to interact with the Spotify Mobile SDK
 
 #### Connecting/Authenticating
 
-| Function | Description                                          | Android               | iOS                   |
-| -------- | ---------------------------------------------------- | --------------------- | --------------------- |
-| init     | Connects the App to Spotify                          | :heavy_check_mark:    | :construction_worker: |
-| logout   | logs the user out and disconnects the app connection | :construction_worker: | :construction_worker: |
+| Function  | Description                            | Android            | iOS                   |
+| --------- | -------------------------------------- | ------------------ | --------------------- |
+| init      | Connects the App to Spotify            | :heavy_check_mark: | :construction_worker: |
+| terminate | disconnects from the Spotify AppRemote | :heavy_check_mark: | :construction_worker: |
 
 #### Player Api
 
