@@ -250,6 +250,16 @@ class _HomeState extends State<Home> {
               }
             },
           ),
+          RaisedButton(
+            child: Text("Terminate"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.terminate();
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
         ],
       ),
     );

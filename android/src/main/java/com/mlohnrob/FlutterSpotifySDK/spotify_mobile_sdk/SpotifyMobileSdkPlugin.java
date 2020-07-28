@@ -107,7 +107,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         return;
       case "terminate":
         terminate(result);
-        return
+        return;
       case "play":
         final String playSpotifyUri = call.argument("spotifyUri");
         play(playSpotifyUri, result);
