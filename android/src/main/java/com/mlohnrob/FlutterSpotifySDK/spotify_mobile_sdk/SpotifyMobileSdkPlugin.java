@@ -105,6 +105,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         final String initRedirectUri = call.argument("redirectUri");
         initialize(initClientId, initRedirectUri, result);
         return;
+      case "terminate":
+        terminate(result);
+        return
       case "play":
         final String playSpotifyUri = call.argument("spotifyUri");
         play(playSpotifyUri, result);
@@ -180,12 +183,12 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-  private void disconnect(@NonNull final Result result) {
+  private void terminate(@NonNull final Result result) {
     try {
       SpotifyAppRemote.disconnect(mSpotifyAppRemote);
       result.success(true);
     } catch (Exception e) {
-      result.error("Disconnect failed: ", e.getMessage(), "");
+      result.error("Terminate failed: ", e.getMessage(), "");
     }
   }
 
