@@ -72,6 +72,16 @@ class SpotifyMobileSdk {
     }
   }
 
+  // possible rename of function
+  static Future<bool> terminate() async {
+    try {
+      return await _channel.invokeMethod("terminate");
+    } on PlatformException catch (e) {
+      print("$e");
+      return false;
+    }
+  }
+
   static Future<void> play({@required String spotifyUri}) async {
     try {
       await _channel.invokeMethod("play", {"spotifyUri": spotifyUri});
