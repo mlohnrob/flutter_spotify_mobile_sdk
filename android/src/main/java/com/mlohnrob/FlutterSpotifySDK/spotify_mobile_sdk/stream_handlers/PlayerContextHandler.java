@@ -19,16 +19,20 @@ public class PlayerContextHandler implements EventChannel.StreamHandler {
 
     @Override
     public void onListen(Object arguments, EventSink events) {
-        // try {
-        // playerApi.subscribeToPlayerContext().setEventCallback(playerContext -> {
+        HashMap<String, String> playerContextMap = new HashMap<String, String>();
+        try {
+            playerApi.subscribeToPlayerContext().setEventCallback(playerContext -> {
+                playerContextMap.put("title", playerContext.title);
+                playerContextMap.put("subtitle", playerContext.subtitle);
+                playerContextMap.put("type", playerContext.type);
+                playerContextMap.put("uri", playerContext.uri);
 
-        // // events.success(playerStateMap);
-        // }).setErrorCallback(
-        // throwable -> events.error("Get Player Context Events Failed",
-        // throwable.getMessage(), ""));
-        // } catch (Exception e) {
-        // events.error("Get Player Context Events Failed", e.getMessage(), "");
-        // }
+                events.success(playerContextMap);
+            }).setErrorCallback(
+                    throwable -> events.error("Get Player Context Events Failed", throwable.getMessage(), ""));
+        } catch (Exception e) {
+            events.error("Get Player Context Events Failed", e.getMessage(), "");
+        }
     }
 
     @Override
