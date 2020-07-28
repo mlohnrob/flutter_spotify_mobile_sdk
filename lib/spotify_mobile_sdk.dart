@@ -162,6 +162,14 @@ class SpotifyMobileSdk {
     }
   }
 
+  static Future<void> switchToLocalDevice() async {
+    try {
+      await _channel.invokeMethod("switchToLocalDevice");
+    } on PlatformException catch (e) {
+      print("$e");
+    }
+  }
+
   Future<Uint8List> getImage({@required String imageUri, SpotifyImageDimension dimension = SpotifyImageDimension.MEDIUM}) async {
     try {
       return await _channel.invokeMethod("getImage", {"imageUri": imageUri, "dimension": dimension.value});

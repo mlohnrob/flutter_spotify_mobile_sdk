@@ -230,6 +230,16 @@ class _HomeState extends State<Home> {
           ),
           Divider(),
           RaisedButton(
+            child: Text("Switch To Local Device"),
+            onPressed: () async {
+              try {
+                await SpotifyMobileSdk.switchToLocalDevice();
+              } catch (e) {
+                print("$e");
+              }
+            },
+          ),
+          RaisedButton(
             child: Text("Seek to 2.5 minutes"),
             onPressed: () async {
               try {

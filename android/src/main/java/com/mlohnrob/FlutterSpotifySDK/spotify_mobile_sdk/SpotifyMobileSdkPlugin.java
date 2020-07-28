@@ -142,6 +142,9 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         final int seekToRelativePositionMilliseconds = call.argument("milliseconds");
         seekToRelativePosition((long) seekToRelativePositionMilliseconds, result);
         return;
+      case "switchToLocalDevice":
+        switchToLocalDevice(result);
+        return;
       default:
         result.notImplemented();
         return;
@@ -287,6 +290,15 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       result.success(true);
     } catch (Exception e) {
       result.error("Seek to Relative Position [milliseconds] Failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void switchToLocalDevice(@NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getConnectApi().connectSwitchToLocalDevice();
+      result.success(true);
+    } catch (Exception e) {
+      result.error("Switch To Local Device Failed: ", e.getMessage(), "");
     }
   }
 
