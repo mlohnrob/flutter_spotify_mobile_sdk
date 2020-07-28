@@ -9,20 +9,13 @@ class PlayerStatePage extends StatefulWidget {
 class _PlayerStatePageState extends State<PlayerStatePage> {
   SpotifyMobileSdk _spotsdk = SpotifyMobileSdk();
 
-  // SpotifyPlayerState _playerState;
   Stream _stream;
 
   @override
   void initState() {
     super.initState();
-    // _stream = getPlayerStateNow();
     _stream = _spotsdk.playerStateEvents;
   }
-
-  // Stream getPlayerStateNow() {
-  //   return SpotifyMobileSdk.playerStateEvents;
-  //   // print(snapshot.data as String);
-  // }
 
   @override
   Widget build(BuildContext context) {

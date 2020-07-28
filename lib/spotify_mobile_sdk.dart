@@ -43,6 +43,7 @@ class SpotifyMobileSdk {
   }
 
   Stream<SpotifyPlayerState> get playerStateEvents {
+    // TODO: Make [artists] list not get infinitely big
     try {
       return _playerStateChannel.receiveBroadcastStream().asyncMap((dynamic event) => SpotifyPlayerState.fromMap(Map<String, dynamic>.from(event)));
     } on PlatformException catch (e) {

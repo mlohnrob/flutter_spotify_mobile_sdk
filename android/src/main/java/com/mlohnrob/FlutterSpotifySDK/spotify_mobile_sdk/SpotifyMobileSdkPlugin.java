@@ -181,6 +181,7 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler,
 
   @Override
   public void onCancel(Object arguments) {
+    // TODO: Write onCancel process
   }
 
   private void initialize(@NonNull final String clientId, @NonNull final String redirectUri,
