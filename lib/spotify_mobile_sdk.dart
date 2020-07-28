@@ -43,22 +43,12 @@ class SpotifyMobileSdk {
   }
 
   Stream<SpotifyPlayerState> get playerStateEvents {
-    // if (_playerStateEvents == null) {
-    //   _playerStateEvents = _playerStateChannel.receiveBroadcastStream().map((dynamic event) {
-    //     Map<String, dynamic> playerStateMap = Map<String, dynamic>.from(event);
-    //     // print(playerStateMap);
-    //     SpotifyPlayerState playerState = SpotifyPlayerState.fromMap(playerStateMap);
-    //     return playerState;
-    //     // SpotifyPlayerState.fromMap(Map<String, dynamic>.from(event));
-    //   });
-    // }
-    // SpotifyPlayerState value = yield _playerStateEvents;
-    // print("DEBUG: $_playerStateEvents");
-
-    return _playerStateChannel.receiveBroadcastStream().asyncMap((dynamic event) {
-      Map<String, dynamic> playerStateMap = Map<String, dynamic>.from(event);
-      return SpotifyPlayerState.fromMap(playerStateMap);
-    });
+    try {
+      return _playerStateChannel.receiveBroadcastStream().asyncMap((dynamic event) => SpotifyPlayerState.fromMap(Map<String, dynamic>.from(event)));
+    } on PlatformException catch (e) {
+      print("$e");
+      return null;
+    }
   }
 
   static Future<bool> init({@required String clientId, @required String redirectUri}) async {
