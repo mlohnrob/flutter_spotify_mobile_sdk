@@ -6,9 +6,13 @@ import androidx.annotation.NonNull;
 
 import android.content.Context;
 
+import android.graphics.Bitmap;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+
+import java.io.ByteArrayOutputStream;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -31,6 +35,8 @@ import com.spotify.protocol.types.CrossfadeState;
 import com.spotify.protocol.client.CallResult;
 import com.spotify.protocol.types.Track;
 import com.spotify.protocol.types.Artist;
+import com.spotify.protocol.types.ImageUri;
+import com.spotify.protocol.types.Image.Dimension;
 
 /** SpotifyMobileSdkPlugin */
 public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler {
@@ -77,6 +83,10 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
         return;
       case "getPlayerState":
         getPlayerState(result);
+        return;
+      case "getImage":
+        getImage(new ImageUri(call.argument["imageUri"]),
+            Dimension.values().first(it.getValue() == call.argument["dimension"]), result);
         return;
       case "initialize":
         final String initClientId = call.argument("clientId");
@@ -336,6 +346,20 @@ public class SpotifyMobileSdkPlugin implements FlutterPlugin, MethodCallHandler 
       });
     } catch (Exception e) {
       result.error("Get Player State Failed: ", e.getMessage(), "");
+    }
+  }
+
+  private void getImage(@NonNull ImageUri imageUri, @NonNull Dimension dimension, @NonNull Result result) {
+    try {
+      mSpotifyAppRemote.getImageApi().getImage(imageUri, dimension).setResultCallback(bitmap -> {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        result.success(stream.toByteArray());
+      }).setErrorCallback(throwable -> {
+        result.error("Get Image Failed: ", throwable.getMessage(), "");
+      });
+    } catch (Exception e) {
+      result.error("Get Image Failed: ", e.getMessage(), "");
     }
   }
 }

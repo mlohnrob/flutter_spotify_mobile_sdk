@@ -154,7 +154,7 @@ class SpotifyMobileSdk {
 
   static Future<Uint8List> getImage({@required SpotifyImageUri imageUri, ImageDimension dimension = ImageDimension.MEDIUM}) async {
     try {
-      return await _channel.invokeMethod("getImage", {"imageUri": imageUri, "dimension": dimension.value});
+      return await _channel.invokeMethod("getImage", {"imageUri": imageUri.raw, "dimension": dimension.value});
     } on PlatformException catch (e) {
       print("$e");
       return null;
