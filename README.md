@@ -20,7 +20,7 @@ A Flutter plugin that interacts with the Spotify Mobile SDK
 | resume                 | Resumes the current track                                        | :heavy_check_mark: | :construction_worker: |
 | queue                  | Queues given spotifyUri                                          | :heavy_check_mark: | :construction_worker: |
 | skipNext               | Skips to next track                                              | :heavy_check_mark: | :construction_worker: |
-| skipPrevious           | Skips to previous track                                          | :heavy_check_mark: | :construction_worker: |
+| skipPrev               | Skips to previous track                                          | :heavy_check_mark: | :construction_worker: |
 | seekTo                 | Seeks the current track to the given position in milliseconds    | :heavy_check_mark: | :construction_worker: |
 | seekToRelativePosition | Adds to the current position of the track the given milliseconds | :heavy_check_mark: | :construction_worker: |
 | toggleShuffle          | Cycles through the shuffle modes                                 | :heavy_check_mark: | :construction_worker: |
