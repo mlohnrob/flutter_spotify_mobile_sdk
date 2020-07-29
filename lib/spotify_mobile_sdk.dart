@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 // import 'models/crossfade_state_model.dart';
 
 class SpotifyMobileSdk {
-  static const MethodChannel _channel = const MethodChannel('spotify_mobile_sdk');
+  static const MethodChannel _methodChannel = const MethodChannel('spotify_mobile_sdk');
   static const EventChannel _playerStateChannel = const EventChannel('player_state_events');
   static const EventChannel _playerContextChannel = const EventChannel('player_context_events');
 
@@ -15,7 +15,7 @@ class SpotifyMobileSdk {
 
   static Future<bool> get isConnected async {
     try {
-      return await _channel.invokeMethod("getIsConnected");
+      return await _methodChannel.invokeMethod("getIsConnected");
     } on PlatformException catch (e) {
       print("$e");
       return false;
@@ -24,7 +24,7 @@ class SpotifyMobileSdk {
 
   static Future<SpotifyCrossfadeState> get crossfadeState async {
     try {
-      final Map<String, dynamic> crossfadeStateMap = Map<String, dynamic>.from(await _channel.invokeMethod("getCrossfadeState"));
+      final Map<String, dynamic> crossfadeStateMap = Map<String, dynamic>.from(await _methodChannel.invokeMethod("getCrossfadeState"));
       final SpotifyCrossfadeState crossfadeState = SpotifyCrossfadeState.fromMap(crossfadeStateMap);
       return crossfadeState;
     } on PlatformException catch (e) {
@@ -35,7 +35,7 @@ class SpotifyMobileSdk {
 
   static Future<SpotifyPlayerState> get playerState async {
     try {
-      final Map<String, dynamic> playerStateMap = Map<String, dynamic>.from(await _channel.invokeMethod("getPlayerState"));
+      final Map<String, dynamic> playerStateMap = Map<String, dynamic>.from(await _methodChannel.invokeMethod("getPlayerState"));
       final SpotifyPlayerState playerState = SpotifyPlayerState.fromMap(playerStateMap);
       return playerState;
     } on PlatformException catch (e) {
@@ -65,7 +65,7 @@ class SpotifyMobileSdk {
 
   static Future<bool> init({@required String clientId, @required String redirectUri}) async {
     try {
-      return await _channel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
+      return await _methodChannel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
     } on PlatformException catch (e) {
       print("$e");
       return false;
@@ -75,7 +75,7 @@ class SpotifyMobileSdk {
   // possible rename of function
   static Future<bool> terminate() async {
     try {
-      return await _channel.invokeMethod("terminate");
+      return await _methodChannel.invokeMethod("terminate");
     } on PlatformException catch (e) {
       print("$e");
       return false;
@@ -84,7 +84,7 @@ class SpotifyMobileSdk {
 
   static Future<void> play({@required String spotifyUri}) async {
     try {
-      await _channel.invokeMethod("play", {"spotifyUri": spotifyUri});
+      await _methodChannel.invokeMethod("play", {"spotifyUri": spotifyUri});
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -92,7 +92,7 @@ class SpotifyMobileSdk {
 
   static Future<void> queue({@required String spotifyUri}) async {
     try {
-      await _channel.invokeMethod("queue", {"spotifyUri": spotifyUri});
+      await _methodChannel.invokeMethod("queue", {"spotifyUri": spotifyUri});
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -100,7 +100,7 @@ class SpotifyMobileSdk {
 
   static Future<void> pause() async {
     try {
-      await _channel.invokeMethod("pause");
+      await _methodChannel.invokeMethod("pause");
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -108,7 +108,7 @@ class SpotifyMobileSdk {
 
   static Future<void> resume() async {
     try {
-      await _channel.invokeMethod("resume");
+      await _methodChannel.invokeMethod("resume");
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -116,7 +116,7 @@ class SpotifyMobileSdk {
 
   static Future<void> skipNext() async {
     try {
-      await _channel.invokeMethod("skipNext");
+      await _methodChannel.invokeMethod("skipNext");
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -124,7 +124,7 @@ class SpotifyMobileSdk {
 
   static Future<void> skipPrev() async {
     try {
-      await _channel.invokeMethod("skipPrev");
+      await _methodChannel.invokeMethod("skipPrev");
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -132,7 +132,7 @@ class SpotifyMobileSdk {
 
   static Future<void> toggleRepeat() async {
     try {
-      await _channel.invokeMethod("toggleRepeat");
+      await _methodChannel.invokeMethod("toggleRepeat");
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -140,7 +140,7 @@ class SpotifyMobileSdk {
 
   static Future<void> toggleShuffle() async {
     try {
-      await _channel.invokeMethod("toggleShuffle");
+      await _methodChannel.invokeMethod("toggleShuffle");
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -148,7 +148,7 @@ class SpotifyMobileSdk {
 
   static Future<void> seekTo({@required int positionMs}) async {
     try {
-      await _channel.invokeMethod("seekTo", {"positionMs": positionMs});
+      await _methodChannel.invokeMethod("seekTo", {"positionMs": positionMs});
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -156,7 +156,7 @@ class SpotifyMobileSdk {
 
   static Future<void> seekToRelativePosition({@required int milliseconds}) async {
     try {
-      await _channel.invokeMethod("seekToRelativePosition", {"milliseconds": milliseconds});
+      await _methodChannel.invokeMethod("seekToRelativePosition", {"milliseconds": milliseconds});
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -164,7 +164,7 @@ class SpotifyMobileSdk {
 
   static Future<void> switchToLocalDevice() async {
     try {
-      await _channel.invokeMethod("switchToLocalDevice");
+      await _methodChannel.invokeMethod("switchToLocalDevice");
     } on PlatformException catch (e) {
       print("$e");
     }
@@ -172,7 +172,7 @@ class SpotifyMobileSdk {
 
   Future<Uint8List> getImage({@required String imageUri, SpotifyImageDimension dimension = SpotifyImageDimension.MEDIUM}) async {
     try {
-      return await _channel.invokeMethod("getImage", {"imageUri": imageUri, "dimension": dimension.value});
+      return await _methodChannel.invokeMethod("getImage", {"imageUri": imageUri, "dimension": dimension.value});
     } on PlatformException catch (e) {
       print("$e");
       return null;
