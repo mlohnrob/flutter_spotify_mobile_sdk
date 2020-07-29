@@ -49,4 +49,7 @@ android {
 dependencies {
     implementation files('./libs/spotify-app-remote-release-0.7.0.aar')
     implementation files('./libs/spotify-auth-release-1.2.3.aar')
+
+    // very important to not crash:
+    implementation "com.google.code.gson:gson:2.8.6"
 }

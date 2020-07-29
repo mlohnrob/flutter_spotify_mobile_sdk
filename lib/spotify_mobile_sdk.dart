@@ -13,7 +13,7 @@ class SpotifyMobileSdk {
 
   // Stream<SpotifyPlayerState> _playerStateEvents;
 
-  static Future<bool> get isConnected async {
+  Future<bool> get isConnected async {
     try {
       return await _methodChannel.invokeMethod("getIsConnected");
     } on PlatformException catch (e) {
@@ -22,7 +22,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<SpotifyCrossfadeState> get crossfadeState async {
+  Future<SpotifyCrossfadeState> get crossfadeState async {
     try {
       final Map<String, dynamic> crossfadeStateMap = Map<String, dynamic>.from(await _methodChannel.invokeMethod("getCrossfadeState"));
       final SpotifyCrossfadeState crossfadeState = SpotifyCrossfadeState.fromMap(crossfadeStateMap);
@@ -33,7 +33,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<SpotifyPlayerState> get playerState async {
+  Future<SpotifyPlayerState> get playerState async {
     try {
       final Map<String, dynamic> playerStateMap = Map<String, dynamic>.from(await _methodChannel.invokeMethod("getPlayerState"));
       final SpotifyPlayerState playerState = SpotifyPlayerState.fromMap(playerStateMap);
@@ -63,7 +63,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<bool> init({@required String clientId, @required String redirectUri}) async {
+  Future<bool> init({@required String clientId, @required String redirectUri}) async {
     try {
       return await _methodChannel.invokeMethod("initialize", {"clientId": clientId, "redirectUri": redirectUri});
     } on PlatformException catch (e) {
@@ -73,7 +73,7 @@ class SpotifyMobileSdk {
   }
 
   // possible rename of function
-  static Future<bool> terminate() async {
+  Future<bool> terminate() async {
     try {
       return await _methodChannel.invokeMethod("terminate");
     } on PlatformException catch (e) {
@@ -82,7 +82,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> play({@required String spotifyUri}) async {
+  Future<void> play({@required String spotifyUri}) async {
     try {
       await _methodChannel.invokeMethod("play", {"spotifyUri": spotifyUri});
     } on PlatformException catch (e) {
@@ -90,7 +90,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> queue({@required String spotifyUri}) async {
+  Future<void> queue({@required String spotifyUri}) async {
     try {
       await _methodChannel.invokeMethod("queue", {"spotifyUri": spotifyUri});
     } on PlatformException catch (e) {
@@ -98,7 +98,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> pause() async {
+  Future<void> pause() async {
     try {
       await _methodChannel.invokeMethod("pause");
     } on PlatformException catch (e) {
@@ -106,7 +106,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> resume() async {
+  Future<void> resume() async {
     try {
       await _methodChannel.invokeMethod("resume");
     } on PlatformException catch (e) {
@@ -114,7 +114,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> skipNext() async {
+  Future<void> skipNext() async {
     try {
       await _methodChannel.invokeMethod("skipNext");
     } on PlatformException catch (e) {
@@ -122,7 +122,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> skipPrev() async {
+  Future<void> skipPrev() async {
     try {
       await _methodChannel.invokeMethod("skipPrev");
     } on PlatformException catch (e) {
@@ -130,7 +130,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> toggleRepeat() async {
+  Future<void> toggleRepeat() async {
     try {
       await _methodChannel.invokeMethod("toggleRepeat");
     } on PlatformException catch (e) {
@@ -138,7 +138,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> toggleShuffle() async {
+  Future<void> toggleShuffle() async {
     try {
       await _methodChannel.invokeMethod("toggleShuffle");
     } on PlatformException catch (e) {
@@ -146,7 +146,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> seekTo({@required int positionMs}) async {
+  Future<void> seekTo({@required int positionMs}) async {
     try {
       await _methodChannel.invokeMethod("seekTo", {"positionMs": positionMs});
     } on PlatformException catch (e) {
@@ -154,7 +154,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> seekToRelativePosition({@required int milliseconds}) async {
+  Future<void> seekToRelativePosition({@required int milliseconds}) async {
     try {
       await _methodChannel.invokeMethod("seekToRelativePosition", {"milliseconds": milliseconds});
     } on PlatformException catch (e) {
@@ -162,7 +162,7 @@ class SpotifyMobileSdk {
     }
   }
 
-  static Future<void> switchToLocalDevice() async {
+  Future<void> switchToLocalDevice() async {
     try {
       await _methodChannel.invokeMethod("switchToLocalDevice");
     } on PlatformException catch (e) {

@@ -23,7 +23,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // SpotifyMobileSdk _spotsdk = SpotifyMobileSdk();
+  SpotifyMobileSdk _spotsdk = SpotifyMobileSdk();
 
   bool _connected = false;
   bool _init = false;
@@ -44,13 +44,13 @@ class _HomeState extends State<Home> {
 
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      init = await SpotifyMobileSdk.init(clientId: "e2e3774bb3224432b7161b7680538458", redirectUri: "spotify-sdk://auth");
+      init = await _spotsdk.init(clientId: "e2e3774bb3224432b7161b7680538458", redirectUri: "spotify-sdk://auth");
     } on PlatformException {
       print("PLATFORM EXCEPTION INIT");
     }
 
     try {
-      connected = await SpotifyMobileSdk.isConnected;
+      connected = await _spotsdk.isConnected;
     } on PlatformException {
       print("PLATFORM EXCEPTION 2");
     }
@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
     int crossfadeDuration;
 
     try {
-      crossfadeState = await SpotifyMobileSdk.crossfadeState;
+      crossfadeState = await _spotsdk.crossfadeState;
       crossfadeEnabled = crossfadeState.isEnabled;
       crossfadeDuration = crossfadeState.duration;
     } on PlatformException {
@@ -127,7 +127,7 @@ class _HomeState extends State<Home> {
             child: Text("Play Lyriske 9mm"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.play(spotifyUri: "spotify:track:5jgxQsZq6njAFQm4V2EUzZ");
+                await _spotsdk.play(spotifyUri: "spotify:track:5jgxQsZq6njAFQm4V2EUzZ");
               } catch (e) {
                 print("$e");
               }
@@ -138,7 +138,7 @@ class _HomeState extends State<Home> {
             child: Text("Queue Congratulations"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.queue(spotifyUri: "spotify:track:3a1lNhkSLSkpJE4MSHpDu9");
+                await _spotsdk.queue(spotifyUri: "spotify:track:3a1lNhkSLSkpJE4MSHpDu9");
               } catch (e) {
                 print("$e");
               }
@@ -148,7 +148,7 @@ class _HomeState extends State<Home> {
             child: Text("Queue SAD!"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.queue(spotifyUri: "spotify:track:3ee8Jmje8o58CHK66QrVC2");
+                await _spotsdk.queue(spotifyUri: "spotify:track:3ee8Jmje8o58CHK66QrVC2");
               } catch (e) {
                 print("$e");
               }
@@ -159,7 +159,7 @@ class _HomeState extends State<Home> {
             child: Text("Toggle Repeat"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.toggleRepeat();
+                await _spotsdk.toggleRepeat();
               } catch (e) {
                 print("$e");
               }
@@ -170,7 +170,7 @@ class _HomeState extends State<Home> {
             child: Text("Toggle Shuffle"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.toggleShuffle();
+                await _spotsdk.toggleShuffle();
               } catch (e) {
                 print("$e");
               }
@@ -184,7 +184,7 @@ class _HomeState extends State<Home> {
                 child: Text("PAUSE"),
                 onPressed: () async {
                   try {
-                    await SpotifyMobileSdk.pause();
+                    await _spotsdk.pause();
                   } catch (e) {
                     print("$e");
                   }
@@ -194,7 +194,7 @@ class _HomeState extends State<Home> {
                 child: Text("RESUME"),
                 onPressed: () async {
                   try {
-                    await SpotifyMobileSdk.resume();
+                    await _spotsdk.resume();
                   } catch (e) {
                     print("$e");
                   }
@@ -210,7 +210,7 @@ class _HomeState extends State<Home> {
                 child: Text("Skip Prev"),
                 onPressed: () async {
                   try {
-                    await SpotifyMobileSdk.skipPrev();
+                    await _spotsdk.skipPrev();
                   } catch (e) {
                     print("$e");
                   }
@@ -220,7 +220,7 @@ class _HomeState extends State<Home> {
                 child: Text("Skip Next"),
                 onPressed: () async {
                   try {
-                    await SpotifyMobileSdk.skipNext();
+                    await _spotsdk.skipNext();
                   } catch (e) {
                     print("$e");
                   }
@@ -233,7 +233,7 @@ class _HomeState extends State<Home> {
             child: Text("Switch To Local Device"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.switchToLocalDevice();
+                await _spotsdk.switchToLocalDevice();
               } catch (e) {
                 print("$e");
               }
@@ -243,7 +243,7 @@ class _HomeState extends State<Home> {
             child: Text("Seek to 2.5 minutes"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.seekTo(positionMs: 150000);
+                await _spotsdk.seekTo(positionMs: 150000);
               } catch (e) {
                 print("$e");
               }
@@ -254,7 +254,7 @@ class _HomeState extends State<Home> {
             child: Text("Seek 10 seconds ahead"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.seekToRelativePosition(milliseconds: 10000);
+                await _spotsdk.seekToRelativePosition(milliseconds: 10000);
               } catch (e) {
                 print("$e");
               }
@@ -264,7 +264,7 @@ class _HomeState extends State<Home> {
             child: Text("Terminate"),
             onPressed: () async {
               try {
-                await SpotifyMobileSdk.terminate();
+                await _spotsdk.terminate();
               } catch (e) {
                 print("$e");
               }
