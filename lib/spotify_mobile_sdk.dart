@@ -4,7 +4,27 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 
-// import 'models/crossfade_state_model.dart';
+import 'package:spotify_mobile_sdk/models/spotify_crossfade_state.dart';
+import 'package:spotify_mobile_sdk/models/spotify_player_context.dart';
+import 'package:spotify_mobile_sdk/models/spotify_player_state.dart';
+import 'package:spotify_mobile_sdk/enums/spotify_image_dimension.dart';
+
+export 'package:spotify_mobile_sdk/models/spotify_crossfade_state.dart';
+export 'package:spotify_mobile_sdk/models/spotify_player_context.dart';
+export 'package:spotify_mobile_sdk/models/spotify_player_state.dart';
+export 'package:spotify_mobile_sdk/enums/spotify_image_dimension.dart';
+
+extension on SpotifyImageDimension {
+  static const Map<SpotifyImageDimension, int> dimensionValues = <SpotifyImageDimension, int>{
+    SpotifyImageDimension.LARGE: 720,
+    SpotifyImageDimension.MEDIUM: 480,
+    SpotifyImageDimension.SMALL: 360,
+    SpotifyImageDimension.X_SMALL: 240,
+    SpotifyImageDimension.THUMBNAIL: 144,
+  };
+
+  int get value => dimensionValues[this];
+}
 
 class SpotifyMobileSdk {
   static const MethodChannel _methodChannel = const MethodChannel('spotify_mobile_sdk');
@@ -178,144 +198,4 @@ class SpotifyMobileSdk {
       return null;
     }
   }
-}
-
-class SpotifyCrossfadeState {
-  final bool isEnabled;
-  final int duration;
-
-  SpotifyCrossfadeState(this.isEnabled, this.duration);
-
-  SpotifyCrossfadeState.fromMap(Map<String, dynamic> map)
-      : isEnabled = map["isEnabled"],
-        duration = map["duration"];
-}
-
-class SpotifyPlayerState {
-  final SpotifyTrack track;
-  final bool isPaused;
-  final double playbackSpeed;
-  final int playbackPosition;
-  final SpotifyPlayerOptions playbackOptions;
-  final SpotifyPlayerRestrictions playbackRestrictions;
-
-  SpotifyPlayerState(this.track, this.isPaused, this.playbackSpeed, this.playbackPosition, this.playbackOptions, this.playbackRestrictions);
-
-  SpotifyPlayerState.fromMap(Map<String, dynamic> map)
-      : track = SpotifyTrack.fromMap(map["track"]),
-        isPaused = map["isPaused"],
-        playbackSpeed = map["playbackSpeed"],
-        playbackPosition = map["playbackPosition"],
-        playbackOptions = SpotifyPlayerOptions.fromMap(map["playbackOptions"]),
-        playbackRestrictions = SpotifyPlayerRestrictions.fromMap(map["playbackRestrictions"]);
-}
-
-class SpotifyPlayerContext {
-  final String title;
-  final String subtitle;
-  final String type;
-  final String uri;
-
-  SpotifyPlayerContext(this.title, this.subtitle, this.type, this.uri);
-
-  SpotifyPlayerContext.fromMap(Map<String, String> map)
-      : title = map["title"],
-        subtitle = map["subtitle"],
-        type = map["type"],
-        uri = map["uri"];
-}
-
-class SpotifyTrack {
-  String name;
-  String uri;
-  SpotifyAlbum album;
-  SpotifyArtist artist;
-  List<SpotifyArtist> artists;
-  int duration;
-  bool isEpisode;
-  bool isPodcast;
-  String imageUri;
-
-  SpotifyTrack(this.name, this.uri, this.album, this.artist, this.artists, this.duration, this.imageUri, this.isEpisode, this.isPodcast);
-
-  SpotifyTrack.fromMap(Map<dynamic, dynamic> map) {
-    this.name = map["name"];
-    this.uri = map["uri"];
-    this.album = SpotifyAlbum.fromMap(map["album"]);
-    this.artist = SpotifyArtist.fromMap(map["artist"]);
-    for (int i = 0; i < map["artists"].length; i++) {
-      map["artists"][i] = SpotifyArtist.fromMap(map["artists"][i]);
-    }
-    this.artists = List<SpotifyArtist>.from(map["artists"]);
-    this.duration = map["duration"];
-    this.isEpisode = map["isEpisode"];
-    this.isPodcast = map["isPodcast"];
-    this.imageUri = map["imageUri"];
-  }
-}
-
-class SpotifyAlbum {
-  final String name;
-  final String uri;
-
-  SpotifyAlbum(this.name, this.uri);
-
-  SpotifyAlbum.fromMap(Map<dynamic, dynamic> map)
-      : name = map["name"],
-        uri = map["uri"];
-}
-
-class SpotifyArtist {
-  final String name;
-  final String uri;
-
-  SpotifyArtist(this.name, this.uri);
-
-  SpotifyArtist.fromMap(Map<dynamic, dynamic> map)
-      : name = map["name"],
-        uri = map["uri"];
-}
-
-class SpotifyPlayerOptions {
-  final bool isShuffling;
-  final int repeatMode;
-
-  SpotifyPlayerOptions(this.isShuffling, this.repeatMode);
-
-  SpotifyPlayerOptions.fromMap(Map<dynamic, dynamic> map)
-      : isShuffling = map["isShuffling"],
-        repeatMode = map["repeatMode"];
-}
-
-class SpotifyPlayerRestrictions {
-  final bool canRepeatContext;
-  final bool canRepeatTrack;
-  final bool canSeek;
-  final bool canSkipNext;
-  final bool canSkipPrev;
-  final bool canToggleShuffle;
-
-  SpotifyPlayerRestrictions(this.canRepeatContext, this.canRepeatTrack, this.canSeek, this.canSkipNext, this.canSkipPrev, this.canToggleShuffle);
-
-  SpotifyPlayerRestrictions.fromMap(Map<dynamic, dynamic> map)
-      : canRepeatContext = map["canRepeatContext"],
-        canRepeatTrack = map["canRepeatTrack"],
-        canSeek = map["canSeek"],
-        canSkipNext = map["canSkipNext"],
-        canSkipPrev = map["canSkipPrev"],
-        canToggleShuffle = map["canToggleShuffle"];
-}
-
-enum SpotifyImageDimension { LARGE, MEDIUM, SMALL, X_SMALL, THUMBNAIL }
-
-extension on SpotifyImageDimension {
-  static const Map<SpotifyImageDimension, int> dimensionValues = <SpotifyImageDimension, int>{
-    SpotifyImageDimension.LARGE: 720,
-    SpotifyImageDimension.MEDIUM: 480,
-    SpotifyImageDimension.SMALL: 360,
-    SpotifyImageDimension.X_SMALL: 240,
-    SpotifyImageDimension.THUMBNAIL: 144,
-  };
-
-  int get value => dimensionValues[this];
 }

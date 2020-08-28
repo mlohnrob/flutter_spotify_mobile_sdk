@@ -1,6 +1,6 @@
 name: spotify_mobile_sdk
 description: A Flutter plugin that interacts with the Spotify Mobile SDK
-version: 0.1.0
+version: 0.1.1
 repository: "https://github.com/augu1352/flutter_spotify_mobile_sdk"
 issue_tracker: "https://github.com/augu1352/flutter_spotify_mobile_sdk/issues"
 
