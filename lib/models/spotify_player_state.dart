@@ -1,6 +1,6 @@
-import 'package:spotify_mobile_sdk/models/spotify_track.dart';
-import 'package:spotify_mobile_sdk/models/spotify_player_options.dart';
-import 'package:spotify_mobile_sdk/models/spotify_player_restrictions.dart';
+import 'spotify_track.dart';
+import 'spotify_player_options.dart';
+import 'spotify_player_restrictions.dart';
 
 class SpotifyPlayerState {
   final SpotifyTrack track;
