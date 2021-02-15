@@ -2,15 +2,15 @@ import 'package:spotify_mobile_sdk/models/spotify_album.dart';
 import 'package:spotify_mobile_sdk/models/spotify_artist.dart';
 
 class SpotifyTrack {
-  String name;
-  String uri;
-  SpotifyAlbum album;
-  SpotifyArtist artist;
-  List<SpotifyArtist> artists;
-  int duration;
-  bool isEpisode;
-  bool isPodcast;
-  String imageUri;
+  final String name;
+  final String uri;
+  final SpotifyAlbum album;
+  final SpotifyArtist artist;
+  final List<SpotifyArtist> artists;
+  final int duration;
+  final bool isEpisode;
+  final bool isPodcast;
+  final String imageUri;
 
   SpotifyTrack(this.name, this.uri, this.album, this.artist, this.artists, this.duration, this.imageUri, this.isEpisode, this.isPodcast);
 
